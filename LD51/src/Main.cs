@@ -11,19 +11,34 @@ namespace LD51
         private SpriteBatch spriteBatch;
 
         private Texture2D player;
-        private Vector2 playerPosition = new Vector2();
-        private float playerMovementSpeed = 250f;
+        private Vector2 playerPosition;
+        private float playerMovementSpeed = 512 / 2f;
+
+        private float enemyMovementSpeed;
+
+        private MouseState previousMouseState;
+
+        private Point screenSize;
 
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            screenSize = new Point(512, 512);
+            graphics.PreferredBackBufferWidth = screenSize.X;
+            graphics.PreferredBackBufferHeight = screenSize.Y;
+            graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            playerPosition = new Vector2(screenSize.X / 2f, -screenSize.Y / 2f);
+            enemyMovementSpeed = playerMovementSpeed / 2f;
+            previousMouseState = Mouse.GetState();
 
             base.Initialize();
         }
@@ -32,43 +47,80 @@ namespace LD51
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             player = new Texture2D(GraphicsDevice, 1, 1);
             player.SetData(new[] { Color.White });
+
+            Enemy.texture = new Texture2D(GraphicsDevice, 1, 1);
+            Enemy.texture.SetData(new[] { Color.White });
+
+            Bullet.texture = new Texture2D(GraphicsDevice, 1, 1);
+            Bullet.texture.SetData(new[] { Color.Yellow });
         }
 
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            /// Input
+
+            Input.Update();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            KeyboardState state = Keyboard.GetState();
-            Vector2 moveDelta = new Vector2();
+            /// Player
 
-            if (state.IsKeyDown(Keys.W))
+            // Movement
+            Vector2 moveDirection = new Vector2();
+
+            if (Input.IsKeyDown(Keys.W))
             {
-                moveDelta += Vector2.UnitY;
+                moveDirection += Vector2.UnitY;
             }
-            if (state.IsKeyDown(Keys.S))
+            if (Input.IsKeyDown(Keys.S))
             {
-                moveDelta -= Vector2.UnitY;
+                moveDirection -= Vector2.UnitY;
             }
-            if (state.IsKeyDown(Keys.D))
+            if (Input.IsKeyDown(Keys.D))
             {
-                moveDelta += Vector2.UnitX;
+                moveDirection += Vector2.UnitX;
             }
-            if (state.IsKeyDown(Keys.A))
+            if (Input.IsKeyDown(Keys.A))
             {
-                moveDelta -= Vector2.UnitX;
+                moveDirection -= Vector2.UnitX;
             }
 
-            moveDelta.SafeNormalize();
-            moveDelta *= playerMovementSpeed;
+            playerPosition += moveDirection.Normalized() * playerMovementSpeed * deltaTime;
 
-            playerPosition += moveDelta * deltaTime;
+            // Shooting
+
+            MouseState currentMouseState = Mouse.GetState();
+            if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+            {
+                Vector2 pointToMouse = new Vector2(currentMouseState.X, -currentMouseState.Y) - playerPosition;
+                Bullet.Spawn(playerPosition, pointToMouse.Normalized(), playerMovementSpeed * 4);
+            }
+            previousMouseState = currentMouseState;
+
+            /// Enemy
+            
+            foreach (Enemy enemy in Enemy.Enemies)
+            {
+                enemy.Direction = (playerPosition - enemy.Position).Normalized();
+                enemy.Update(deltaTime);
+            }
+
+            /// Bullets
+
+            foreach (Bullet bullet in Bullet.Bullets)
+            {
+                bullet.Update(deltaTime);
+            }
+
+            /// Debug
+
+            if (Input.IsKeyPressed(Keys.F12))
+                Enemy.Spawn(Vector2.Zero, enemyMovementSpeed);
 
             base.Update(gameTime);
         }
@@ -78,8 +130,19 @@ namespace LD51
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            // TODO: Add your drawing code here
-            spriteBatch.Draw(player, new Rectangle((int)playerPosition.X, -(int)playerPosition.Y, 25, 25), Color.White);
+
+            spriteBatch.Draw(player, new Rectangle((int)playerPosition.X, -(int)playerPosition.Y, 32, 32), Color.White);
+
+            foreach (Enemy enemy in Enemy.Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+
+            foreach (Bullet bullet in Bullet.Bullets)
+            {
+                bullet.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -88,11 +151,9 @@ namespace LD51
 
     public static class LunkumsMath
     {
-        public static void SafeNormalize(this Vector2 vector)
+        public static Vector2 Normalized(this Vector2 vector)
         {
-            if (IsZero(vector.Length()))
-                return;
-            vector.Normalize();
+            return IsZero(vector.Length()) ? vector : Vector2.Normalize(vector);
         }
 
         public static bool IsZero(float num)
