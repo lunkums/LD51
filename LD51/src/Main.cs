@@ -54,18 +54,17 @@ namespace LD51
             Content.RootDirectory = "Content";
 
             // Add textures
+            Texture2D baseTexture = new Texture2D(GraphicsDevice, 1, 1);
+            baseTexture.SetData(new[] { Color.White });
 
-            Player.Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Player.Texture.SetData(new[] { Color.White });
-
-            Enemy.Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Enemy.Texture.SetData(new[] { Color.White });
-
-            Bullet.Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Bullet.Texture.SetData(new[] { Color.Yellow });
-
-            Gore.Texture = new Texture2D(GraphicsDevice, 1, 1);
-            Gore.Texture.SetData(new[] { Color.White });
+            // It doesn't seem to matter that these guys all share a base texture, so long as they specify their own
+            // color for it
+            Gore.Texture = baseTexture;
+            Player.Texture = baseTexture;
+            Enemy.Texture = baseTexture;
+            Bullet.Texture = baseTexture;
+            Gore.Texture = baseTexture;
+            Coin.Texture = baseTexture;
 
             Countdown.Texture = Content.Load<Texture2D>("font");
 

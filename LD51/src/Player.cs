@@ -48,6 +48,10 @@ namespace LD51
             {
                 Main.GameOver();
             }
+            else if (collision.Other is Coin)
+            {
+                (collision.Other as Coin).Pickup();
+            }
         }
 
         public void Update(float deltaTime)

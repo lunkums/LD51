@@ -120,6 +120,8 @@ namespace LD51
                 percentDropChance *= 2;
             }
 
+            CoinFactory.TryToSpawn(percentDropChance, Hitbox.Center.ToVector2());
+
             instances.Despawn(this);
             alive = false;
         }

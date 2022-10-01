@@ -60,6 +60,13 @@ namespace LD51
                 gore.Update(deltaTime);
             }
 
+            // Coins
+
+            foreach (Coin coin in Coin.Instances)
+            {
+                coin.Update(deltaTime);
+            }
+
             // Collisions
 
             foreach (Bullet bullet in Bullet.Instances)
@@ -73,6 +80,11 @@ namespace LD51
             foreach (Enemy enemy in Enemy.Instances)
             {
                 CollisionHandler.HandleCollision(enemy, player);
+            }
+
+            foreach (Coin coin in Coin.Instances)
+            {
+                CollisionHandler.HandleCollision(coin, player);
             }
 
             // This is an n^2 collision checked... probably not the best
@@ -113,6 +125,11 @@ namespace LD51
                 gore.Draw(spriteBatch);
             }
 
+            foreach (Coin coin in Coin.Instances)
+            {
+                coin.Draw(spriteBatch);
+            }
+
             foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Draw(spriteBatch);
@@ -147,10 +164,19 @@ namespace LD51
             Bullet.DespawnAll();
             Enemy.DespawnAll();
             Gore.DespawnAll();
+            Coin.DespawnAll();
 
             // Reset countdown
             countdown.Reset();
         }
+
+        /*
+         * Update
+         */
+
+        /*
+         * Events
+         */
 
         private void AttackEvent()
         {

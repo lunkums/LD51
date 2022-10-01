@@ -36,7 +36,6 @@ namespace LD51
 
         public static IEnumerable Instances => instances.List;
 
-        public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
         public uint Id { get; private set; }
 
         public static void Spawn(Vector2 position, Vector2 direction, float speed, Point size)
