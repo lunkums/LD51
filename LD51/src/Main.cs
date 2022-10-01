@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace LD51
 {
@@ -65,7 +64,7 @@ namespace LD51
 
             Input.Update();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Input.IsKeyDown(Keys.Escape))
                 Exit();
 
             /// Player
@@ -94,13 +93,11 @@ namespace LD51
 
             // Shooting
 
-            MouseState currentMouseState = Mouse.GetState();
-            if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+            if (Input.LeftMousePressed())
             {
-                Vector2 pointToMouse = new Vector2(currentMouseState.X, -currentMouseState.Y) - playerPosition;
+                Vector2 pointToMouse = Input.MouseWorldPosition - playerPosition;
                 Bullet.Spawn(playerPosition, pointToMouse.Normalized(), playerMovementSpeed * 4);
             }
-            previousMouseState = currentMouseState;
 
             /// Enemy
             
@@ -146,19 +143,6 @@ namespace LD51
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-    }
-
-    public static class LunkumsMath
-    {
-        public static Vector2 Normalized(this Vector2 vector)
-        {
-            return IsZero(vector.Length()) ? vector : Vector2.Normalize(vector);
-        }
-
-        public static bool IsZero(float num)
-        {
-            return Math.Abs(num) <= float.Epsilon;
         }
     }
 }

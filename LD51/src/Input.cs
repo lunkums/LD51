@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace LD51
 {
@@ -7,12 +8,20 @@ namespace LD51
         private static KeyboardState previousKeyboardState = Keyboard.GetState();
         private static KeyboardState currentKeyboardState = Keyboard.GetState();
 
+        private static MouseState previousMouseState = Mouse.GetState();
+        private static MouseState currentMouseState = Mouse.GetState();
+
         private Input() { }
+
+        public static Vector2 MouseWorldPosition => new Vector2(currentMouseState.X, -currentMouseState.Y);
 
         public static void Update()
         {
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
+
+            previousMouseState = currentMouseState;
+            currentMouseState = Mouse.GetState();
         }
 
         public static bool IsKeyPressed(Keys key)
@@ -23,6 +32,11 @@ namespace LD51
         public static bool IsKeyDown(Keys key)
         {
             return currentKeyboardState.IsKeyDown(key);
+        }
+
+        public static bool LeftMousePressed()
+        {
+            return currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released;
         }
     }
 }
