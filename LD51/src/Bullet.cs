@@ -7,10 +7,11 @@ namespace LD51
 {
     public class Bullet : ICollider, IEntity
     {
-        public static Texture2D texture;
-
         private static EntityContainer<Bullet> instances = new EntityContainer<Bullet>();
-        private static Point bounds = new Point(8, 8);
+
+        private static Texture2D texture;
+        private static Point bounds;
+        private static Sprite sprite;
 
         private const float lifeTimeInSeconds = 1;
 
@@ -30,8 +31,18 @@ namespace LD51
 
         public static IEnumerable Instances => instances.List;
 
-        public Hitbox Hitbox => new Hitbox(position, bounds);
+        public static Texture2D Texture
+        {
+            get => texture;
+            set
+            {
+                texture = value;
+                bounds = new Point(8, 8);
+                sprite = new Sprite(texture, bounds, Color.Yellow);
+            }
+        }
 
+        public Hitbox Hitbox => new Hitbox(position, bounds);
         public uint Id { get; private set; }
 
         public void InvokeResponse(Type type)
@@ -60,10 +71,7 @@ namespace LD51
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                texture,
-                new Rectangle((int)position.X, -(int)position.Y - bounds.Y, bounds.X, bounds.Y),
-                Color.Yellow);
+            sprite.Draw(spriteBatch, position);
         }
 
         private void Despawn()

@@ -9,14 +9,13 @@ namespace LD51
     {
         public static event Action OnUpdateEnd;
 
+        private static float timeScale = 1f;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Texture2D player;
-        private Vector2 playerPosition;
+        private Player player;
         private float playerMovementSpeed = 512 / 2f;
-
-        private float enemyMovementSpeed;
 
         private Point screenSize;
 
@@ -39,8 +38,7 @@ namespace LD51
         {
             // TODO: Add your initialization logic here
 
-            playerPosition = new Vector2(screenSize.X / 2f, -screenSize.Y / 2f);
-            enemyMovementSpeed = playerMovementSpeed / 2f;
+            player = new Player(new Vector2(screenSize.X / 2f, -screenSize.Y / 2f), playerMovementSpeed);
 
             base.Initialize();
         }
@@ -49,19 +47,19 @@ namespace LD51
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player = new Texture2D(GraphicsDevice, 1, 1);
-            player.SetData(new[] { Color.White });
+            Player.Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Player.Texture.SetData(new[] { Color.White });
 
-            Enemy.texture = new Texture2D(GraphicsDevice, 1, 1);
-            Enemy.texture.SetData(new[] { Color.White });
+            Enemy.Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Enemy.Texture.SetData(new[] { Color.White });
 
-            Bullet.texture = new Texture2D(GraphicsDevice, 1, 1);
-            Bullet.texture.SetData(new[] { Color.Yellow });
+            Bullet.Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Bullet.Texture.SetData(new[] { Color.Yellow });
         }
 
         protected override void Update(GameTime gameTime)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * timeScale;
 
             /// Input
 
@@ -72,41 +70,13 @@ namespace LD51
 
             /// Player
 
-            // Movement
-            Vector2 moveDirection = new Vector2();
-
-            if (Input.IsKeyDown(Keys.W))
-            {
-                moveDirection += Vector2.UnitY;
-            }
-            if (Input.IsKeyDown(Keys.S))
-            {
-                moveDirection -= Vector2.UnitY;
-            }
-            if (Input.IsKeyDown(Keys.D))
-            {
-                moveDirection += Vector2.UnitX;
-            }
-            if (Input.IsKeyDown(Keys.A))
-            {
-                moveDirection -= Vector2.UnitX;
-            }
-
-            playerPosition += moveDirection.Normalized() * playerMovementSpeed * deltaTime;
-
-            // Shooting
-
-            if (Input.LeftMousePressed())
-            {
-                Vector2 pointToMouse = Input.MouseWorldPosition - playerPosition;
-                Bullet.Spawn(playerPosition, pointToMouse.Normalized(), playerMovementSpeed * 4f);
-            }
+            player.Update(deltaTime);
 
             /// Enemy
             
             foreach (Enemy enemy in Enemy.Instances)
             {
-                enemy.Direction = (playerPosition - enemy.Position).Normalized();
+                enemy.Direction = (player.Position - enemy.Position).Normalized();
                 enemy.Update(deltaTime);
             }
 
@@ -127,10 +97,15 @@ namespace LD51
                 }
             }
 
+            foreach (Enemy enemy in Enemy.Instances)
+            {
+                Collision.HandleCollision(enemy, player);
+            }
+
             /// Debug
 
             if (Input.IsKeyPressed(Keys.F12))
-                Enemy.Spawn(Vector2.Zero, enemyMovementSpeed);
+                Enemy.Spawn(Vector2.Zero, playerMovementSpeed / 2f);
 
             if (Input.IsKeyPressed(Keys.F11))
                 foreach (Enemy enemy in Enemy.Instances)
@@ -149,7 +124,7 @@ namespace LD51
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(player, new Rectangle((int)playerPosition.X, -(int)playerPosition.Y - 32, 32, 32), Color.White);
+            player.Draw(spriteBatch);
 
             foreach (Enemy enemy in Enemy.Instances)
             {
@@ -164,6 +139,11 @@ namespace LD51
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public static void GameOver()
+        {
+            timeScale = 0f;
         }
     }
 }
