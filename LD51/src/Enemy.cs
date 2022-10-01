@@ -38,7 +38,7 @@ namespace LD51
 
         public Vector2 Direction { get; set; }
         public Vector2 Position => position;
-        public Rectangle Hitbox => new Rectangle((int)position.X, (int)position.Y, bounds.X, bounds.Y);
+        public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
         public uint Id { get; private set; }
         public float Speed { set => speed = value; }
 
