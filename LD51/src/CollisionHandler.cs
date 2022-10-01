@@ -9,6 +9,8 @@ namespace LD51
         // Return whether a collision has occurred between two colliders and if so, invoke a collision response
         public static void HandleCollision(ICollider collider, ICollider collidee)
         {
+            if (collider == collidee) return;
+
             Rectangle colliderBox = collider.Hitbox;
             Rectangle collideeBox = collidee.Hitbox;
 

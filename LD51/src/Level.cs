@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections;
 
 namespace LD51
 {
@@ -70,11 +68,10 @@ namespace LD51
                 CollisionHandler.HandleCollision(enemy, player);
             }
 
-            (IEnumerable, IEnumerable) enemyInstances = Enemy.SplitInstances;
-
-            foreach (Enemy enemy in enemyInstances.Item1)
+            // This is an n^2 collision checked... probably not the best
+            foreach (Enemy enemy in Enemy.Instances)
             {
-                foreach (Enemy otherEnemy in enemyInstances.Item2)
+                foreach (Enemy otherEnemy in Enemy.Instances)
                 {
                     CollisionHandler.HandleCollision(enemy, otherEnemy);
                 }
