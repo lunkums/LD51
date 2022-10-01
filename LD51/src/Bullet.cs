@@ -9,8 +9,8 @@ namespace LD51
     {
         public static Texture2D texture;
 
-        private static EntityContainer<Bullet> bullets = new EntityContainer<Bullet>();
-        private static Point bounds = new Point(16, 16);
+        private static EntityContainer<Bullet> instances = new EntityContainer<Bullet>();
+        private static Point bounds = new Point(8, 8);
 
         private const float lifeTimeInSeconds = 1;
 
@@ -28,7 +28,7 @@ namespace LD51
             remainingLife = lifeTimeInSeconds;
         }
 
-        public static IEnumerable Bullets => bullets.Entities;
+        public static IEnumerable Instances => instances.List;
 
         public Hitbox Hitbox => new Hitbox(position, bounds);
 
@@ -36,13 +36,16 @@ namespace LD51
 
         public void InvokeResponse(Type type)
         {
-            
+            if (type == typeof(Enemy))
+            {
+                Despawn();
+            }
         }
 
         public static void Spawn(Vector2 position, Vector2 direction, float speed)
         {
             Bullet bullet = new Bullet(position, direction, speed);
-            bullet.Id = bullets.Spawn(bullet);
+            bullet.Id = instances.Spawn(bullet);
         }
 
         public void Update(float deltaTime)
@@ -59,13 +62,13 @@ namespace LD51
         {
             spriteBatch.Draw(
                 texture,
-                new Rectangle((int)position.X, -(int)position.Y, bounds.X, bounds.Y),
+                new Rectangle((int)position.X, -(int)position.Y - bounds.Y, bounds.X, bounds.Y),
                 Color.Yellow);
         }
 
         private void Despawn()
         {
-            bullets.Despawn(this);
+            instances.Despawn(this);
         }
     }
 }

@@ -99,12 +99,12 @@ namespace LD51
             if (Input.LeftMousePressed())
             {
                 Vector2 pointToMouse = Input.MouseWorldPosition - playerPosition;
-                Bullet.Spawn(playerPosition, pointToMouse.Normalized(), playerMovementSpeed * 4);
+                Bullet.Spawn(playerPosition, pointToMouse.Normalized(), playerMovementSpeed * 4f);
             }
 
             /// Enemy
             
-            foreach (Enemy enemy in Enemy.Enemies)
+            foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Direction = (playerPosition - enemy.Position).Normalized();
                 enemy.Update(deltaTime);
@@ -112,16 +112,16 @@ namespace LD51
 
             /// Bullets
 
-            foreach (Bullet bullet in Bullet.Bullets)
+            foreach (Bullet bullet in Bullet.Instances)
             {
                 bullet.Update(deltaTime);
             }
 
             /// Collisions
 
-            foreach (Bullet bullet in Bullet.Bullets)
+            foreach (Bullet bullet in Bullet.Instances)
             {
-                foreach (Enemy enemy in Enemy.Enemies)
+                foreach (Enemy enemy in Enemy.Instances)
                 {
                     Collision.HandleCollision(bullet, enemy);
                 }
@@ -131,6 +131,12 @@ namespace LD51
 
             if (Input.IsKeyPressed(Keys.F12))
                 Enemy.Spawn(Vector2.Zero, enemyMovementSpeed);
+
+            if (Input.IsKeyPressed(Keys.F11))
+                foreach (Enemy enemy in Enemy.Instances)
+                {
+                    enemy.Speed = 0;
+                }
 
             OnUpdateEnd.Invoke();
 
@@ -143,14 +149,14 @@ namespace LD51
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(player, new Rectangle((int)playerPosition.X, -(int)playerPosition.Y, 32, 32), Color.White);
+            spriteBatch.Draw(player, new Rectangle((int)playerPosition.X, -(int)playerPosition.Y - 32, 32, 32), Color.White);
 
-            foreach (Enemy enemy in Enemy.Enemies)
+            foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Draw(spriteBatch);
             }
 
-            foreach (Bullet bullet in Bullet.Bullets)
+            foreach (Bullet bullet in Bullet.Instances)
             {
                 bullet.Draw(spriteBatch);
             }

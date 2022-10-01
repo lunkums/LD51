@@ -20,7 +20,7 @@ namespace LD51
             Main.OnUpdateEnd += ClearActionQueue;
         }
 
-        public IEnumerable Entities => entities.Values;
+        public IEnumerable List => entities.Values;
 
         public uint Spawn(T entity)
         {
