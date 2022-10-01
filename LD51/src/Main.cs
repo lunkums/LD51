@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -52,6 +53,8 @@ namespace LD51
 
             Content.RootDirectory = "Content";
 
+            // Add textures
+
             Player.Texture = new Texture2D(GraphicsDevice, 1, 1);
             Player.Texture.SetData(new[] { Color.White });
 
@@ -62,6 +65,11 @@ namespace LD51
             Bullet.Texture.SetData(new[] { Color.Yellow });
 
             Countdown.Texture = Content.Load<Texture2D>("font");
+
+            // Add sounds
+
+            Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
+            Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
         }
 
         protected override void Update(GameTime gameTime)

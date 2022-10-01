@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin cock.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:cock.wav
+
 #begin font.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -24,4 +30,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:font.png
+
+#begin shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:shoot.wav
 

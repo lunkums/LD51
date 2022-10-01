@@ -7,17 +7,23 @@ namespace LD51
 {
     public class Player : ICollider
     {
+        private const float secondsBetweenShots = 3 / 4f;
+
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
 
         private Vector2 position;
         private float speed;
+        private float shootCooldown;
+        private bool hasReloaded;
 
         public Player(Vector2 startingPosition, float speed)
         {
             position = startingPosition;
             this.speed = speed;
+            shootCooldown = 0;
+            hasReloaded = true;
         }
 
         public static Texture2D Texture
@@ -34,6 +40,8 @@ namespace LD51
         public Vector2 Position { get => position; set => position = value; }
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
 
+        private Vector2 Center => Hitbox.Center.ToVector2();
+
         public void CollisionResponse(Collision collision)
         {
             if (collision.Other is Enemy)
@@ -44,7 +52,10 @@ namespace LD51
 
         public void Update(float deltaTime)
         {
+            shootCooldown = Math.Max(shootCooldown - deltaTime, -1);
+
             // Movement
+
             Vector2 moveDirection = new Vector2();
 
             if (Input.IsKeyDown(Keys.W))
@@ -67,10 +78,27 @@ namespace LD51
             position += moveDirection.Normalized() * speed * deltaTime;
 
             // Shooting
-            if (Input.LeftMousePressed())
+
+            if (Input.LeftMousePressed() && shootCooldown <= 0)
             {
-                Vector2 pointToMouse = Input.MouseWorldPosition - position;
-                Bullet.Spawn(position, pointToMouse.Normalized(), speed * 4f);
+                // Play clip
+                Audio.Play("shoot");
+
+                // Spawn bullet
+                Vector2 directionToMouse = (Input.MouseWorldPosition - position).Normalized();
+                Bullet.Spawn(Center, directionToMouse, speed * 4f);
+                Bullet.Spawn(Center, directionToMouse.Rotate(15), speed * 4f);
+                Bullet.Spawn(Center, directionToMouse.Rotate(-15), speed * 4f);
+
+                // Start cooldown
+                shootCooldown = secondsBetweenShots;
+                hasReloaded = false;
+            }
+
+            if (!hasReloaded && shootCooldown <= secondsBetweenShots / 2)
+            {
+                Audio.Play("cock");
+                hasReloaded = true;
             }
         }
 

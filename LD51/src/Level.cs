@@ -22,7 +22,7 @@ namespace LD51
         public void Initialize()
         {
             playerMovementSpeed = 512 / 2f;
-            Enemy.MaxSpeed = playerMovementSpeed * 3 / 4f;
+            Enemy.MaxSpeed = playerMovementSpeed * 2 / 3f;
             maxNumOfEnemies = 3;
 
             player = new Player(startingPosition, playerMovementSpeed);
