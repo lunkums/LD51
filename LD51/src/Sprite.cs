@@ -26,6 +26,7 @@ namespace LD51
         // Use these to form a "cutout" of the texture2D
         public Point TexturePosition { private get; set; }
         public float LocalScale => localScale;
+        public float Alpha { set => color = new Color(color, value); }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {

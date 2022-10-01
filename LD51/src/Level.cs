@@ -53,6 +53,13 @@ namespace LD51
                 bullet.Update(deltaTime);
             }
 
+            // Gore
+
+            foreach (Gore gore in Gore.Instances)
+            {
+                gore.Update(deltaTime);
+            }
+
             // Collisions
 
             foreach (Bullet bullet in Bullet.Instances)
@@ -84,7 +91,7 @@ namespace LD51
             // Debug
 
             if (Input.IsKeyPressed(Keys.F12))
-                Enemy.Spawn(Vector2.Zero, 1);
+                Enemy.Spawn(Vector2.Zero, 3);
 
             if (Input.IsKeyPressed(Keys.F11))
                 foreach (Enemy enemy in Enemy.Instances)
@@ -98,12 +105,20 @@ namespace LD51
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            player.Draw(spriteBatch);
+            // Draw order is based on the order in which these methods are called (i.e. the HUD is drawn on top of
+            // everything because its draw method is called last)
+
+            foreach (Gore gore in Gore.Instances)
+            {
+                gore.Draw(spriteBatch);
+            }
 
             foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Draw(spriteBatch);
             }
+
+            player.Draw(spriteBatch);
 
             foreach (Bullet bullet in Bullet.Instances)
             {
@@ -131,6 +146,7 @@ namespace LD51
             // Reset entities
             Bullet.DespawnAll();
             Enemy.DespawnAll();
+            Gore.DespawnAll();
 
             // Reset countdown
             countdown.Reset();

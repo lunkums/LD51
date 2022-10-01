@@ -64,6 +64,9 @@ namespace LD51
             Bullet.Texture = new Texture2D(GraphicsDevice, 1, 1);
             Bullet.Texture.SetData(new[] { Color.Yellow });
 
+            Gore.Texture = new Texture2D(GraphicsDevice, 1, 1);
+            Gore.Texture.SetData(new[] { Color.White });
+
             Countdown.Texture = Content.Load<Texture2D>("font");
 
             // Add sounds
@@ -103,7 +106,7 @@ namespace LD51
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred,
-                BlendState.AlphaBlend,
+                BlendState.NonPremultiplied,
                 SamplerState.PointClamp,
                 DepthStencilState.None,
                 RasterizerState.CullNone,

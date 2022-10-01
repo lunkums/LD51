@@ -19,6 +19,11 @@ namespace LD51
             return v.RotateRadians(degrees * DegToRad);
         }
 
+        public static float Lerp(float firstFloat, float secondFloat, float by)
+        {
+            return firstFloat * (1 - by) + secondFloat * by;
+        }
+
         public static Vector2 RotateRadians(this Vector2 v, float radians)
         {
             float ca = (float)Math.Cos(radians);
