@@ -22,6 +22,7 @@ namespace LD51
         public void Initialize()
         {
             playerMovementSpeed = 512 / 2f;
+            Enemy.MaxSpeed = playerMovementSpeed;
             maxNumOfEnemies = 3;
 
             player = new Player(startingPosition, playerMovementSpeed);
@@ -74,7 +75,7 @@ namespace LD51
             // Debug
 
             if (Input.IsKeyPressed(Keys.F12))
-                Enemy.Spawn(Vector2.Zero, playerMovementSpeed / 2f);
+                Enemy.Spawn(Vector2.Zero, 1);
 
             if (Input.IsKeyPressed(Keys.F11))
                 foreach (Enemy enemy in Enemy.Instances)
@@ -138,8 +139,7 @@ namespace LD51
 
             for (int i = 0; i < numOfEnemies; i++)
             {
-                Enemy.Spawn(new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32)),
-                    rand.NextInt((int)(playerMovementSpeed / 2f), (int)(playerMovementSpeed * 1f)));
+                Enemy.Spawn(new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32)), rand.NextInt(1, 4));
             }
         }
     }

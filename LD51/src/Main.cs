@@ -68,7 +68,7 @@ namespace LD51
 
             Input.Update();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Input.IsKeyDown(Keys.Escape))
+            if (Input.IsKeyDown(Keys.Escape))
                 Exit();
 
             // Update game logic

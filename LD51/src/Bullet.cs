@@ -68,7 +68,7 @@ namespace LD51
                 // Prevent the same bullet from affecting multiple enemies simultaneously
                 if (!active) return;
 
-                (collider as Enemy).Despawn();
+                (collider as Enemy).TakeDamage(1);
                 Despawn();
             }
         }

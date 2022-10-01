@@ -7,35 +7,33 @@ namespace LD51
 {
     public class Enemy : ICollider, IEntity
     {
-        private static EntityContainer<Enemy> instances = new EntityContainer<Enemy>();
+        public static float MaxSpeed;
+        public static Texture2D Texture;
 
-        private static Texture2D texture;
-        private static Point bounds;
-        private static Sprite sprite;
+        private static EntityContainer<Enemy> instances = new EntityContainer<Enemy>();
 
         private Vector2 position;
         private float speed;
+        private Point bounds;
+        private Sprite sprite;
 
-        private Enemy(Vector2 position, float speed)
+        private int health;
+        private bool alive;
+
+        private Enemy(Vector2 position, float speed, int size)
         {
             this.position = position;
             this.speed = speed;
+
+            bounds = new Point(size * 2, size * 2);
+            sprite = new Sprite(Texture, bounds, Color.Red);
+            health = size;
+            alive = true;
 
             Direction = new Vector2();
         }
 
         public static IEnumerable Instances => instances.List;
-
-        public static Texture2D Texture
-        {
-            get => texture;
-            set
-            {
-                texture = value;
-                bounds = new Point(4, 4);
-                sprite = new Sprite(texture, bounds, Color.Red);
-            }
-        }
 
         public Vector2 Direction { get; set; }
         public Vector2 Position => position;
@@ -43,9 +41,10 @@ namespace LD51
         public uint Id { get; private set; }
         public float Speed { set => speed = value; }
 
-        public static void Spawn(Vector2 position, float speed)
+        public static void Spawn(Vector2 position, int size)
         {
-            Enemy enemy = new Enemy(position, speed);
+            size = Math.Clamp(size, 1, 3);
+            Enemy enemy = new Enemy(position, MaxSpeed / size, size);
             enemy.Id = instances.Spawn(enemy);
         }
 
@@ -53,7 +52,7 @@ namespace LD51
         {
             foreach (Enemy enemy in Instances)
             {
-                enemy.Despawn();
+                instances.Despawn(enemy);
             }
         }
 
@@ -72,9 +71,17 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
-        public void Despawn()
+        public void TakeDamage(int damage)
         {
-            instances.Despawn(this);
+            health -= damage;
+
+            // The "alive" check may be redundant, but I wanted to cover possible edge cases where the enemy doesn't
+            // despawn right away
+            if (health < 1 && alive)
+            {
+                instances.Despawn(this);
+                alive = false;
+            }
         }
     }
 }

@@ -23,9 +23,9 @@ namespace LD51
             return Convert.ToInt32(seed);
         }
 
-        public int NextInt(int min, int max)
+        public int NextInt(int inclusiveMin, int exclusiveMax)
         {
-            return (NextInt() % (max - min)) + min;
+            return (NextInt() % (exclusiveMax - inclusiveMin)) + inclusiveMin;
         }
     }
 }
