@@ -21,6 +21,7 @@ namespace LD51
         }
 
         public IEnumerable List => entities.Values;
+        public (IEnumerable, IEnumerable) SplitLists => entities.Split();
 
         public uint Spawn(T entity)
         {

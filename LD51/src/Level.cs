@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections;
 
 namespace LD51
 {
@@ -66,6 +68,16 @@ namespace LD51
             foreach (Enemy enemy in Enemy.Instances)
             {
                 Collision.HandleCollision(enemy, player);
+            }
+
+            (IEnumerable, IEnumerable) enemyInstances = Enemy.SplitInstances;
+
+            foreach (Enemy enemy in enemyInstances.Item1)
+            {
+                foreach (Enemy otherEnemy in enemyInstances.Item2)
+                {
+                    Collision.HandleCollision(enemy, otherEnemy);
+                }
             }
 
             // HUD

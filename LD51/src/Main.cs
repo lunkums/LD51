@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace LD51
 {
@@ -11,6 +12,7 @@ namespace LD51
         public static float TimeScale = 1f;
 
         private static Level level;
+        private static float frameRate;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -31,6 +33,8 @@ namespace LD51
             // Register this listener so the "Invoke" will never be null
             OnUpdateEnd += () => { };
         }
+
+        public static float FrameRate => frameRate;
 
         protected override void Initialize()
         {
@@ -63,6 +67,9 @@ namespace LD51
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * TimeScale;
+            float frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            Debug.WriteLine(frameRate + " FPS");
 
             // Update input
 

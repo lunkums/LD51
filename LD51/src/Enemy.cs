@@ -34,6 +34,7 @@ namespace LD51
         }
 
         public static IEnumerable Instances => instances.List;
+        public static (IEnumerable, IEnumerable) SplitInstances => instances.SplitLists;
 
         public Vector2 Direction { get; set; }
         public Vector2 Position => position;
@@ -58,7 +59,10 @@ namespace LD51
 
         public void CollisionResponse(ICollider collider)
         {
-            // Nothing yet
+            if (collider is Enemy)
+            {
+
+            }
         }
 
         public void Update(float deltaTime)
