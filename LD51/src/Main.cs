@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace LD51
 {
     public class Main : Game
     {
+        public static event Action OnUpdateEnd;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -14,8 +17,6 @@ namespace LD51
         private float playerMovementSpeed = 512 / 2f;
 
         private float enemyMovementSpeed;
-
-        private MouseState previousMouseState;
 
         private Point screenSize;
 
@@ -29,6 +30,9 @@ namespace LD51
             graphics.PreferredBackBufferWidth = screenSize.X;
             graphics.PreferredBackBufferHeight = screenSize.Y;
             graphics.ApplyChanges();
+
+            // Register this listener so the "Invoke" will never be null
+            OnUpdateEnd += () => { };
         }
 
         protected override void Initialize()
@@ -37,7 +41,6 @@ namespace LD51
 
             playerPosition = new Vector2(screenSize.X / 2f, -screenSize.Y / 2f);
             enemyMovementSpeed = playerMovementSpeed / 2f;
-            previousMouseState = Mouse.GetState();
 
             base.Initialize();
         }
@@ -114,10 +117,22 @@ namespace LD51
                 bullet.Update(deltaTime);
             }
 
+            /// Collisions
+
+            foreach (Bullet bullet in Bullet.Bullets)
+            {
+                foreach (Enemy enemy in Enemy.Enemies)
+                {
+                    Collision.HandleCollision(bullet, enemy);
+                }
+            }
+
             /// Debug
 
             if (Input.IsKeyPressed(Keys.F12))
                 Enemy.Spawn(Vector2.Zero, enemyMovementSpeed);
+
+            OnUpdateEnd.Invoke();
 
             base.Update(gameTime);
         }

@@ -14,5 +14,10 @@ namespace LD51
         {
             return Math.Abs(num) <= float.Epsilon;
         }
+
+        public static Point ToPoint(this Vector2 vector)
+        {
+            return new Point((int)vector.X, (int)vector.Y);
+        }
     }
 }
