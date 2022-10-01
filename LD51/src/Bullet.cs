@@ -44,7 +44,7 @@ namespace LD51
             }
         }
 
-        public Hitbox Hitbox => new Hitbox(position, bounds);
+        public Rectangle Hitbox => new Rectangle((int)position.X, (int)position.Y, bounds.X, bounds.Y);
         public uint Id { get; private set; }
 
         public static void Spawn(Vector2 position, Vector2 direction, float speed)

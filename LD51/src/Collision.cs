@@ -1,4 +1,6 @@
-﻿namespace LD51
+﻿using Microsoft.Xna.Framework;
+
+namespace LD51
 {
     public class Collision
     {
@@ -7,8 +9,8 @@
         // Return whether a collision has occurred between two colliders and if so, invoke a collision response
         public static void HandleCollision(ICollider collider, ICollider collidee)
         {
-            Hitbox colliderBox = collider.Hitbox;
-            Hitbox collideeBox = collidee.Hitbox;
+            Rectangle colliderBox = collider.Hitbox;
+            Rectangle collideeBox = collidee.Hitbox;
 
             // Axis-Aligned Bounding Box collisions will not work on rotated colliders
             if (colliderBox.X < collideeBox.X + collideeBox.Width * Sprite.GLOBAL_SCALE &&

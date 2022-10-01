@@ -32,7 +32,7 @@ namespace LD51
         }
 
         public Vector2 Position { get => position; set => position = value; }
-        public Hitbox Hitbox => new Hitbox(Position, bounds);
+        public Rectangle Hitbox => new Rectangle((int)position.X, (int)position.Y, bounds.X, bounds.Y);
 
         public void CollisionResponse(ICollider collider)
         {
