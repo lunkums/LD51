@@ -6,6 +6,7 @@ namespace LD51
     public class Audio
     {
         private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+        private static Rand rand = new Rand();
 
         public static void AddSoundEffect(string effectName, SoundEffect effect)
         {
@@ -18,6 +19,11 @@ namespace LD51
             {
                 effect.Play();
             }
+        }
+
+        public static void PlayRandom(string[] effectNames)
+        {
+            Play(effectNames[rand.NextInt(0, effectNames.Length)]);
         }
     }
 }

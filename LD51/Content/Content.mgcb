@@ -31,6 +31,24 @@
 /processorParam:TextureFormat=Color
 /build:font.png
 
+#begin headexploding1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:headexploding1.wav
+
+#begin headexploding2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:headexploding2.wav
+
+#begin headexploding3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:headexploding3.wav
+
 #begin shoot.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

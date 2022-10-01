@@ -12,6 +12,7 @@ namespace LD51
         public static Texture2D Texture;
 
         private static EntityContainer<Enemy> instances = new EntityContainer<Enemy>();
+        private static string[] dyingSfx = new string[] { "headexploding1", "headexploding2", "headexploding3" };
 
         private Vector2 position;
         private float speed;
@@ -20,6 +21,7 @@ namespace LD51
 
         private int health;
         private bool alive;
+        private int damageTakenBeforeDeath;
 
         private Enemy(Vector2 position, float speed, int size)
         {
@@ -30,6 +32,7 @@ namespace LD51
             sprite = new Sprite(Texture, bounds, Color.Red);
             health = size;
             alive = true;
+            damageTakenBeforeDeath = 0;
 
             Direction = new Vector2();
         }
@@ -72,6 +75,12 @@ namespace LD51
         public void Update(float deltaTime)
         {
             position += speed * Direction * deltaTime;
+
+            // The "alive" check may be redundant, but I wanted to cover possible edge cases where the enemy doesn't
+            // despawn right away
+            if (health < 1 && alive)
+                Die();
+            damageTakenBeforeDeath = 0;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -82,14 +91,17 @@ namespace LD51
         public void TakeDamage(int damage)
         {
             health -= damage;
+            damageTakenBeforeDeath += damage;
+        }
 
-            // The "alive" check may be redundant, but I wanted to cover possible edge cases where the enemy doesn'taaa
-            // despawn right away
-            if (health < 1 && alive)
-            {
-                instances.Despawn(this);
-                alive = false;
-            }
+        private void Die()
+        {
+            // "Critical" hit makes fun gore noises
+            if (damageTakenBeforeDeath > 1)
+                Audio.PlayRandom(dyingSfx);
+
+            instances.Despawn(this);
+            alive = false;
         }
     }
 }

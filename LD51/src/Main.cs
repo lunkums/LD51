@@ -70,6 +70,9 @@ namespace LD51
 
             Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
             Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
+            Audio.AddSoundEffect("headexploding1", Content.Load<SoundEffect>("headexploding1"));
+            Audio.AddSoundEffect("headexploding2", Content.Load<SoundEffect>("headexploding2"));
+            Audio.AddSoundEffect("headexploding3", Content.Load<SoundEffect>("headexploding3"));
         }
 
         protected override void Update(GameTime gameTime)
