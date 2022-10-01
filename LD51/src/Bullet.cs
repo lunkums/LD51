@@ -37,7 +37,7 @@ namespace LD51
             set
             {
                 texture = value;
-                bounds = new Point(8, 8);
+                bounds = new Point(1, 1);
                 sprite = new Sprite(texture, bounds, Color.Yellow);
             }
         }

@@ -46,6 +46,8 @@ namespace LD51
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Content.RootDirectory = "Content";
+
             Player.Texture = new Texture2D(GraphicsDevice, 1, 1);
             Player.Texture.SetData(new[] { Color.White });
 
@@ -54,6 +56,8 @@ namespace LD51
 
             Bullet.Texture = new Texture2D(GraphicsDevice, 1, 1);
             Bullet.Texture.SetData(new[] { Color.Yellow });
+
+            Timer.Texture = Content.Load<Texture2D>("font");
         }
 
         protected override void Update(GameTime gameTime)
@@ -80,7 +84,12 @@ namespace LD51
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                BlendState.AlphaBlend,
+                SamplerState.PointClamp,
+                DepthStencilState.None,
+                RasterizerState.CullNone,
+                null);
             level.Draw(spriteBatch);
             spriteBatch.End();
 

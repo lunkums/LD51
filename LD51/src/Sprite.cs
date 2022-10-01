@@ -5,16 +5,27 @@ namespace LD51
 {
     public class Sprite : ISprite
     {
+        // Also used for collisions
+        public const int GLOBAL_SCALE = 8;
+
         private Texture2D texture;
         private Point bounds;
         private Color color;
+        private float localScale;
 
-        public Sprite(Texture2D texture, Point bounds, Color color)
+        public Sprite(Texture2D texture, Point bounds, Color color, float localScale = 1f)
         {
             this.texture = texture;
             this.bounds = bounds;
             this.color = color;
+            this.localScale = localScale;
+
+            TexturePosition = Point.Zero;
         }
+
+        // Use these to form a "cutout" of the texture2D
+        public Point TexturePosition { private get; set; }
+        public float LocalScale => localScale;
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
@@ -22,7 +33,12 @@ namespace LD51
             // Subtract the Y bounds from the Y position to align the sprite
             spriteBatch.Draw(
                 texture,
-                new Rectangle((int)position.X, -(int)position.Y - bounds.Y, bounds.X, bounds.Y),
+                new Rectangle(
+                    (int)position.X,
+                    -1 * (int)(position.Y + (bounds.Y * GLOBAL_SCALE * localScale)),
+                    (int)(bounds.X * GLOBAL_SCALE * localScale),
+                    (int)(bounds.Y * GLOBAL_SCALE * localScale)),
+                new Rectangle(TexturePosition, bounds),
                 color);
         }
     }

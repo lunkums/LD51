@@ -6,15 +6,19 @@ namespace LD51
 {
     public class Level
     {
+        private const float timerLengthInSeconds = 10f;
+
         private Player player;
         private Vector2 startingPosition = Vector2.Zero;
         private float playerMovementSpeed = 512 / 2f;
+        private Timer timer;
 
         public Vector2 StartingPosition { set => startingPosition = value; }
 
         public void Initialize()
         {
             player = new Player(startingPosition, playerMovementSpeed);
+            timer = new Timer(timerLengthInSeconds);
         }
 
         public void Update(float deltaTime)
@@ -81,6 +85,10 @@ namespace LD51
             {
                 bullet.Draw(spriteBatch);
             }
+
+            // HUD
+
+            timer.Draw(spriteBatch);
         }
 
         public void GameOver()
