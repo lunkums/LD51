@@ -45,18 +45,26 @@ namespace LD51
         public Hitbox Hitbox => new Hitbox(position, bounds);
         public uint Id { get; private set; }
 
-        public void InvokeResponse(Type type)
+        public static void Spawn(Vector2 position, Vector2 direction, float speed)
+        {
+            Bullet bullet = new Bullet(position, direction, speed);
+            bullet.Id = instances.Spawn(bullet);
+        }
+
+        public static void DespawnAll()
+        {
+            foreach (Bullet bullet in Instances)
+            {
+                bullet.Despawn();
+            }
+        }
+
+        public void CollisionResponse(Type type)
         {
             if (type == typeof(Enemy))
             {
                 Despawn();
             }
-        }
-
-        public static void Spawn(Vector2 position, Vector2 direction, float speed)
-        {
-            Bullet bullet = new Bullet(position, direction, speed);
-            bullet.Id = instances.Spawn(bullet);
         }
 
         public void Update(float deltaTime)

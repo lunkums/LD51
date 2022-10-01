@@ -15,8 +15,8 @@
                 colliderBox.Y < collideeBox.Y + collideeBox.Height &&
                 colliderBox.Height + colliderBox.Y > collideeBox.Y)
             {
-                collider.InvokeResponse(collidee.GetType());
-                collidee.InvokeResponse(collider.GetType());
+                collider.CollisionResponse(collidee.GetType());
+                collidee.CollisionResponse(collider.GetType());
             }
         }
     }

@@ -43,18 +43,26 @@ namespace LD51
         public uint Id { get; private set; }
         public float Speed { set => speed = value; }
 
-        public void InvokeResponse(Type type)
+        public static void Spawn(Vector2 position, float speed)
+        {
+            Enemy enemy = new Enemy(position, speed);
+            enemy.Id = instances.Spawn(enemy);
+        }
+
+        public static void DespawnAll()
+        {
+            foreach (Enemy enemy in Instances)
+            {
+                enemy.Despawn();
+            }
+        }
+
+        public void CollisionResponse(Type type)
         {
             if (type == typeof(Bullet))
             {
                 Despawn();
             }
-        }
-
-        public static void Spawn(Vector2 position, float speed)
-        {
-            Enemy enemy = new Enemy(position, speed);
-            enemy.Id = instances.Spawn(enemy);
         }
 
         public void Update(float deltaTime)

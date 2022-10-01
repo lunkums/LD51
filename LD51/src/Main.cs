@@ -8,14 +8,12 @@ namespace LD51
     public class Main : Game
     {
         public static event Action OnUpdateEnd;
+        public static float TimeScale = 1f;
 
-        private static float timeScale = 1f;
+        private static Level level;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
-        private Player player;
-        private float playerMovementSpeed = 512 / 2f;
 
         private Point screenSize;
 
@@ -36,9 +34,10 @@ namespace LD51
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
-            player = new Player(new Vector2(screenSize.X / 2f, -screenSize.Y / 2f), playerMovementSpeed);
+            // Initialize the level
+            level = new Level();
+            level.StartingPosition = new Vector2(screenSize.X / 2f, -screenSize.Y / 2f);
+            level.Initialize();
 
             base.Initialize();
         }
@@ -59,59 +58,18 @@ namespace LD51
 
         protected override void Update(GameTime gameTime)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * timeScale;
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * TimeScale;
 
-            /// Input
+            // Update input
 
             Input.Update();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Input.IsKeyDown(Keys.Escape))
                 Exit();
 
-            /// Player
+            // Update game logic
 
-            player.Update(deltaTime);
-
-            /// Enemy
-            
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                enemy.Direction = (player.Position - enemy.Position).Normalized();
-                enemy.Update(deltaTime);
-            }
-
-            /// Bullets
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                bullet.Update(deltaTime);
-            }
-
-            /// Collisions
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                foreach (Enemy enemy in Enemy.Instances)
-                {
-                    Collision.HandleCollision(bullet, enemy);
-                }
-            }
-
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                Collision.HandleCollision(enemy, player);
-            }
-
-            /// Debug
-
-            if (Input.IsKeyPressed(Keys.F12))
-                Enemy.Spawn(Vector2.Zero, playerMovementSpeed / 2f);
-
-            if (Input.IsKeyPressed(Keys.F11))
-                foreach (Enemy enemy in Enemy.Instances)
-                {
-                    enemy.Speed = 0;
-                }
+            level.Update(deltaTime);
 
             OnUpdateEnd.Invoke();
 
@@ -123,19 +81,7 @@ namespace LD51
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-
-            player.Draw(spriteBatch);
-
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                enemy.Draw(spriteBatch);
-            }
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                bullet.Draw(spriteBatch);
-            }
-
+            level.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -143,7 +89,12 @@ namespace LD51
 
         public static void GameOver()
         {
-            timeScale = 0f;
+            level.GameOver();
+        }
+
+        public static void Reset()
+        {
+            level.Reset();
         }
     }
 }

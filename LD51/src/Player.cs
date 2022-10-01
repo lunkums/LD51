@@ -31,10 +31,10 @@ namespace LD51
             }
         }
 
-        public Vector2 Position => position;
+        public Vector2 Position { get => position; set => position = value; }
         public Hitbox Hitbox => new Hitbox(Position, bounds);
 
-        public void InvokeResponse(Type type)
+        public void CollisionResponse(Type type)
         {
             if (type == typeof(Enemy))
             {
