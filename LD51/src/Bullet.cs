@@ -19,6 +19,7 @@ namespace LD51
         private Vector2 direction;
         private float speed;
         private float remainingLife;
+        private bool active;
 
         private Bullet(Vector2 position, Vector2 direction, float speed)
         {
@@ -27,6 +28,7 @@ namespace LD51
             this.speed = speed;
 
             remainingLife = lifeTimeInSeconds;
+            active = true;
         }
 
         public static IEnumerable Instances => instances.List;
@@ -59,10 +61,14 @@ namespace LD51
             }
         }
 
-        public void CollisionResponse(Type type)
+        public void CollisionResponse(ICollider collider)
         {
-            if (type == typeof(Enemy))
+            if (collider is Enemy)
             {
+                // Prevent the same bullet from affecting multiple enemies simultaneously
+                if (!active) return;
+
+                (collider as Enemy).Despawn();
                 Despawn();
             }
         }
@@ -84,6 +90,7 @@ namespace LD51
 
         private void Despawn()
         {
+            active = false;
             instances.Despawn(this);
         }
     }

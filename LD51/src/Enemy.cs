@@ -57,12 +57,9 @@ namespace LD51
             }
         }
 
-        public void CollisionResponse(Type type)
+        public void CollisionResponse(ICollider collider)
         {
-            if (type == typeof(Bullet))
-            {
-                Despawn();
-            }
+            // Nothing yet
         }
 
         public void Update(float deltaTime)

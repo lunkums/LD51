@@ -4,6 +4,7 @@
     {
         private Collision() { }
 
+        // Return whether a collision has occurred between two colliders and if so, invoke a collision response
         public static void HandleCollision(ICollider collider, ICollider collidee)
         {
             Hitbox colliderBox = collider.Hitbox;
@@ -15,8 +16,8 @@
                 colliderBox.Y < collideeBox.Y + collideeBox.Height * Sprite.GLOBAL_SCALE &&
                 colliderBox.Height * Sprite.GLOBAL_SCALE + colliderBox.Y > collideeBox.Y)
             {
-                collider.CollisionResponse(collidee.GetType());
-                collidee.CollisionResponse(collider.GetType());
+                collider.CollisionResponse(collidee);
+                collidee.CollisionResponse(collider);
             }
         }
     }

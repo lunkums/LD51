@@ -6,6 +6,8 @@ namespace LD51
 {
     public class Countdown
     {
+        public event Action OnCountdownEnd;
+
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
@@ -19,6 +21,7 @@ namespace LD51
         {
             this.lengthInSeconds = lengthInSeconds;
             countdown = lengthInSeconds;
+            OnCountdownEnd += () => { };
         }
 
         public static Texture2D Texture
@@ -42,6 +45,7 @@ namespace LD51
             if (countdown < 0)
             {
                 countdown = lengthInSeconds;
+                OnCountdownEnd.Invoke();
             }
 
             SetTextureOffset();
@@ -51,6 +55,11 @@ namespace LD51
         {
             Vector2 position = new Vector2(2, -(bounds.X + 2)) * sprite.LocalScale * Sprite.GLOBAL_SCALE;
             sprite.Draw(spriteBatch, position);
+        }
+
+        public void Reset()
+        {
+            countdown = lengthInSeconds;
         }
 
         private void SetTextureOffset()

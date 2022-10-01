@@ -9,16 +9,26 @@ namespace LD51
         private const float countdownLengthInSeconds = 10f;
 
         private Player player;
-        private Vector2 startingPosition = Vector2.Zero;
-        private float playerMovementSpeed = 512 / 2f;
         private Countdown countdown;
+        private Rand rand;
+
+        // Starting position is set in Main
+        private Vector2 startingPosition;
+        private float playerMovementSpeed;
+        private int maxNumOfEnemies;
 
         public Vector2 StartingPosition { set => startingPosition = value; }
 
         public void Initialize()
         {
+            playerMovementSpeed = 512 / 2f;
+            maxNumOfEnemies = 3;
+
             player = new Player(startingPosition, playerMovementSpeed);
             countdown = new Countdown(countdownLengthInSeconds);
+            rand = new Rand();
+
+            countdown.OnCountdownEnd += AttackEvent;
         }
 
         public void Update(float deltaTime)
@@ -104,12 +114,33 @@ namespace LD51
         {
             Main.TimeScale = 1f;
 
-            // Reset player
+            // Reset locals
             player.Position = startingPosition;
+            maxNumOfEnemies = 3;
 
             // Reset entities
             Bullet.DespawnAll();
             Enemy.DespawnAll();
+
+            // Reset countdown
+            countdown.Reset();
+        }
+
+        private void AttackEvent()
+        {
+            SpawnEnemies(maxNumOfEnemies);
+            maxNumOfEnemies += 3;
+        }
+
+        private void SpawnEnemies(int maxNumOfEnemies)
+        {
+            int numOfEnemies = rand.NextInt(maxNumOfEnemies / 2, maxNumOfEnemies);
+
+            for (int i = 0; i < numOfEnemies; i++)
+            {
+                Enemy.Spawn(new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32)),
+                    rand.NextInt((int)(playerMovementSpeed / 2f), (int)(playerMovementSpeed * 1f)));
+            }
         }
     }
 }
