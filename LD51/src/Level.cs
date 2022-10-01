@@ -22,7 +22,7 @@ namespace LD51
         public void Initialize()
         {
             playerMovementSpeed = 512 / 2f;
-            Enemy.MaxSpeed = playerMovementSpeed;
+            Enemy.MaxSpeed = playerMovementSpeed * 3 / 4f;
             maxNumOfEnemies = 3;
 
             player = new Player(startingPosition, playerMovementSpeed);
@@ -138,8 +138,7 @@ namespace LD51
 
         private void AttackEvent()
         {
-            SpawnEnemies(maxNumOfEnemies);
-            maxNumOfEnemies += 3;
+            SpawnEnemies(maxNumOfEnemies++);
         }
 
         private void SpawnEnemies(int maxNumOfEnemies)
@@ -148,7 +147,31 @@ namespace LD51
 
             for (int i = 0; i < numOfEnemies; i++)
             {
-                Enemy.Spawn(new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32)), rand.NextInt(1, 4));
+                Enemy.Spawn(GetRandomSpawnPosition(), rand.NextInt(1, 4));
+            }
+        }
+
+        private Vector2 GetRandomSpawnPosition()
+        {
+            int randomSide = rand.NextInt(0, 4);
+
+            switch (randomSide)
+            {
+                case 0:
+                    // Top
+                    return new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32));
+                case 1:
+                    // Bottom
+                    return new Vector2(rand.NextInt(0, 512), -rand.NextInt(512 + 32, 512 + 64));
+                case 2:
+                    // Left
+                    return new Vector2(rand.NextInt(-64, -32), -rand.NextInt(0, 512));
+                case 3:
+                    // Right
+                    return new Vector2(rand.NextInt(512, 512 + 32), -rand.NextInt(0, 512));
+                default:
+                    // Shouldn't happen
+                    return startingPosition;
             }
         }
     }
