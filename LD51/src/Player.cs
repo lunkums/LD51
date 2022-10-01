@@ -34,9 +34,9 @@ namespace LD51
         public Vector2 Position { get => position; set => position = value; }
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
 
-        public void CollisionResponse(ICollider collider)
+        public void CollisionResponse(Collision collision)
         {
-            if (collider is Enemy)
+            if (collision.Other is Enemy)
             {
                 Main.GameOver();
             }

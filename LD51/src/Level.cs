@@ -61,13 +61,13 @@ namespace LD51
             {
                 foreach (Enemy enemy in Enemy.Instances)
                 {
-                    Collision.HandleCollision(bullet, enemy);
+                    CollisionHandler.HandleCollision(bullet, enemy);
                 }
             }
 
             foreach (Enemy enemy in Enemy.Instances)
             {
-                Collision.HandleCollision(enemy, player);
+                CollisionHandler.HandleCollision(enemy, player);
             }
 
             (IEnumerable, IEnumerable) enemyInstances = Enemy.SplitInstances;
@@ -76,7 +76,7 @@ namespace LD51
             {
                 foreach (Enemy otherEnemy in enemyInstances.Item2)
                 {
-                    Collision.HandleCollision(enemy, otherEnemy);
+                    CollisionHandler.HandleCollision(enemy, otherEnemy);
                 }
             }
 

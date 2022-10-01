@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace LD51
 {
@@ -57,11 +58,14 @@ namespace LD51
             }
         }
 
-        public void CollisionResponse(ICollider collider)
+        public void CollisionResponse(Collision collision)
         {
-            if (collider is Enemy)
+            if (collision.Other is Enemy)
             {
-
+                while (Hitbox.Intersects(collision.Other.Hitbox))
+                {
+                    position += collision.Direction(this);
+                }
             }
         }
 
@@ -79,7 +83,7 @@ namespace LD51
         {
             health -= damage;
 
-            // The "alive" check may be redundant, but I wanted to cover possible edge cases where the enemy doesn't
+            // The "alive" check may be redundant, but I wanted to cover possible edge cases where the enemy doesn'taaa
             // despawn right away
             if (health < 1 && alive)
             {

@@ -61,14 +61,14 @@ namespace LD51
             }
         }
 
-        public void CollisionResponse(ICollider collider)
+        public void CollisionResponse(Collision collision)
         {
-            if (collider is Enemy)
+            if (collision.Other is Enemy)
             {
                 // Prevent the same bullet from affecting multiple enemies simultaneously
                 if (!active) return;
 
-                (collider as Enemy).TakeDamage(1);
+                (collision.Other as Enemy).TakeDamage(1);
                 Despawn();
             }
         }

@@ -69,7 +69,7 @@ namespace LD51
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * TimeScale;
             float frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Debug.WriteLine(frameRate + " FPS");
+            // Debug.WriteLine(frameRate + " FPS");
 
             // Update input
 

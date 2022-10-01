@@ -2,22 +2,46 @@
 
 namespace LD51
 {
-    public class Collision
+    public struct Collision
     {
-        private Collision() { }
+        private ICollider other;
+        private Rectangle overlap;
 
-        // Return whether a collision has occurred between two colliders and if so, invoke a collision response
-        public static void HandleCollision(ICollider collider, ICollider collidee)
+        public Collision()
         {
-            Rectangle colliderBox = collider.Hitbox;
-            Rectangle collideeBox = collidee.Hitbox;
+            other = null;
+            overlap = Rectangle.Empty;
+        }
 
-            // Axis-Aligned Bounding Box collisions will not work on rotated colliders
-            if (colliderBox.Intersects(collideeBox))
+        public Collision(ICollider other, Rectangle overlap)
+        {
+            this.other = other;
+            this.overlap = overlap;
+        }
+
+        public ICollider Other => other;
+        public Rectangle Overlap => overlap;
+
+        public Vector2 Direction(ICollider collider)
+        {
+            Vector2 direction;
+
+            if (overlap.Width < overlap.Height)
             {
-                collider.CollisionResponse(collidee);
-                collidee.CollisionResponse(collider);
+                if (collider.Hitbox.Center.X < other.Hitbox.Center.X)
+                    direction = new Vector2(-1, 0);
+                else
+                    direction = new Vector2(1, 0);
             }
+            else
+            {
+                if (collider.Hitbox.Center.Y < other.Hitbox.Center.Y)
+                    direction = new Vector2(0, -1);
+                else
+                    direction = new Vector2(0, 1);
+            }
+
+            return direction;
         }
     }
 }

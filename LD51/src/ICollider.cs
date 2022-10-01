@@ -5,6 +5,6 @@ namespace LD51
     public interface ICollider
     {
         Rectangle Hitbox { get; }
-        void CollisionResponse(ICollider collider);
+        void CollisionResponse(Collision collision);
     }
 }
