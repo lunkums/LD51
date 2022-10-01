@@ -57,7 +57,7 @@ namespace LD51
             Bullet.Texture = new Texture2D(GraphicsDevice, 1, 1);
             Bullet.Texture.SetData(new[] { Color.Yellow });
 
-            Timer.Texture = Content.Load<Texture2D>("font");
+            Countdown.Texture = Content.Load<Texture2D>("font");
         }
 
         protected override void Update(GameTime gameTime)

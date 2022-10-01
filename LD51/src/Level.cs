@@ -6,19 +6,19 @@ namespace LD51
 {
     public class Level
     {
-        private const float timerLengthInSeconds = 10f;
+        private const float countdownLengthInSeconds = 10f;
 
         private Player player;
         private Vector2 startingPosition = Vector2.Zero;
         private float playerMovementSpeed = 512 / 2f;
-        private Timer timer;
+        private Countdown countdown;
 
         public Vector2 StartingPosition { set => startingPosition = value; }
 
         public void Initialize()
         {
             player = new Player(startingPosition, playerMovementSpeed);
-            timer = new Timer(timerLengthInSeconds);
+            countdown = new Countdown(countdownLengthInSeconds);
         }
 
         public void Update(float deltaTime)
@@ -57,6 +57,10 @@ namespace LD51
                 Collision.HandleCollision(enemy, player);
             }
 
+            // HUD
+
+            countdown.Update(deltaTime);
+
             // Debug
 
             if (Input.IsKeyPressed(Keys.F12))
@@ -88,7 +92,7 @@ namespace LD51
 
             // HUD
 
-            timer.Draw(spriteBatch);
+            countdown.Draw(spriteBatch);
         }
 
         public void GameOver()
