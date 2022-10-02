@@ -37,6 +37,24 @@
 /processorParam:TextureFormat=Color
 /build:font.png
 
+#begin grenadeexploding.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:grenadeexploding.wav
+
+#begin grenadepriming.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:grenadepriming.wav
+
+#begin grenadethrowing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:grenadethrowing.wav
+
 #begin headexploding1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

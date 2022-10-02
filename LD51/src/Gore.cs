@@ -22,14 +22,14 @@ namespace LD51
         private float speed;
         private float remainingLife;
 
-        private Gore(Vector2 position, Vector2 direction, float speed, Point size)
+        private Gore(Vector2 position, Vector2 direction, float speed, Point size, Color color)
         {
             this.position = position;
             this.direction = direction;
             this.speed = speed;
 
             bounds = size;
-            sprite = new Sprite(Texture, bounds, Color.DarkRed, 1 / 2f);
+            sprite = new Sprite(Texture, bounds, color, 1 / 2f);
 
             remainingLife = _lifeTimeInSeconds;
         }
@@ -38,9 +38,9 @@ namespace LD51
 
         public uint Id { get; private set; }
 
-        public static void Spawn(Vector2 position, Vector2 direction, float speed, Point size)
+        public static void Spawn(Vector2 position, Vector2 direction, float speed, Point size, Color color)
         {
-            Gore gore = new Gore(position, direction, speed, size);
+            Gore gore = new Gore(position, direction, speed, size, color);
             gore.Id = instances.Spawn(gore);
         }
 

@@ -59,25 +59,26 @@ namespace LD51
 
             // It doesn't seem to matter that these guys all share a base texture, so long as they specify their own
             // color for it
+            Bullet.Texture = baseTexture;
+            Coin.Texture = baseTexture;
+            Enemy.Texture = baseTexture;
             Gore.Texture = baseTexture;
             Grenade.Texture = baseTexture;
             Player.Texture = baseTexture;
-            Enemy.Texture = baseTexture;
-            Bullet.Texture = baseTexture;
-            Gore.Texture = baseTexture;
-            Coin.Texture = baseTexture;
 
             Countdown.Texture = font;
             CoinCounter.Texture = font;
 
             // Add sounds
 
-            Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
             Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
+            Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup")); 
+            Audio.AddSoundEffect("grenadeexploding", Content.Load<SoundEffect>("grenadeexploding"));
+            Audio.AddSoundEffect("grenadepriming", Content.Load<SoundEffect>("grenadepriming"));
             Audio.AddSoundEffect("headexploding1", Content.Load<SoundEffect>("headexploding1"));
             Audio.AddSoundEffect("headexploding2", Content.Load<SoundEffect>("headexploding2"));
             Audio.AddSoundEffect("headexploding3", Content.Load<SoundEffect>("headexploding3"));
-            Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup"));
+            Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
         }
 
         protected override void Update(GameTime gameTime)

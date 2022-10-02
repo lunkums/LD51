@@ -72,17 +72,17 @@ namespace LD51
                 coin.Draw(spriteBatch);
             }
 
-            foreach (Grenade grenade in Grenade.Instances)
-            {
-                grenade.Draw(spriteBatch);
-            }
-
             foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Draw(spriteBatch);
             }
 
             player.Draw(spriteBatch);
+
+            foreach (Grenade grenade in Grenade.Instances)
+            {
+                grenade.Draw(spriteBatch);
+            }
 
             foreach (Bullet bullet in Bullet.Instances)
             {

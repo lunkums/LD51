@@ -1,16 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace LD51
 {
-    public class Enemy : ICollider, IEntity
+    public class Enemy : ICollider, IEntity, IExplodeable
     {
         private static readonly float _recentDamageTimeThreshold = Data.Get<float>("enemyRecentDamageTimeThreshold");
         private static readonly float _basePercentDropChance = Data.Get<float>("enemyBasePercentDropChance");
         private static readonly float _maxSpeed = Data.Get<float>("enemyMaxSpeed");
+        private static readonly float _initialGoreSpeed = Data.Get<float>("enemyInitialGoreSpeed");
 
         public static Texture2D Texture;
 
@@ -54,6 +54,7 @@ namespace LD51
         public float Speed { set => speed = value; }
         public int Size { get; private set; }
         public Vector2 Center => Hitbox.Center.ToVector2();
+        public Color DebrisColor => Color.DarkRed;
 
         public static void Spawn(Vector2 position, int size)
         {
@@ -110,10 +111,10 @@ namespace LD51
         private void Die()
         {
             // "Critical" hit feedback
-            if (recentDamageTaken > 1)
+            if (recentDamageTaken > 2)
             {
                 Audio.PlayRandom(dyingSfx);
-                GoreFactory.SpawnRandomGoreExplosion(this);
+                GoreFactory.SpawnRandomGoreExplosion(this, _initialGoreSpeed);
                 percentDropChance *= 2;
             }
 
