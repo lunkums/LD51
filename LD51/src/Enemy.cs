@@ -57,6 +57,8 @@ namespace LD51
         public Vector2 Center => Hitbox.Center.ToVector2();
         public Color DebrisColor => Color.DarkRed;
 
+        private bool CriticalDeath => recentDamageTaken > Math.Min(Size, 2);
+
         public static void Spawn(Vector2 position, int size)
         {
             size = Math.Clamp(size, 1, 3);
@@ -112,7 +114,7 @@ namespace LD51
         private void Die()
         {
             // "Critical" hit feedback
-            if (recentDamageTaken > 2)
+            if (CriticalDeath)
             {
                 Audio.PlayRandom(dyingSfx);
                 GoreFactory.SpawnRandomGoreExplosion(this, _initialGoreSpeed);
