@@ -5,18 +5,23 @@ using System.Collections.Generic;
 
 namespace LD51
 {
-    public class Grenade : IEntity, IExplodeable
+    public class Grenade : IEntity, IExplodeable, ICollider
     {
         private static readonly float _lifeTimeInSeconds = Data.Get<float>("grenadeLifeTime");
         private static readonly float _initialSpeed = Data.Get<float>("grenadeInitialSpeed");
         private static readonly float _speedInterpolation = Data.Get<float>("grenadeSpeedInterpolation");
+        private static readonly float _explosionFlashAlpha = Data.Get<float>("grenadeExplosionFlashAlpha");
+        private static readonly int _explosionRadius = Data.Get<int>("grenadeExplosionRadius");
         private static readonly int _explosionSize = Data.Get<int>("grenadeExplosionSize");
+        private static readonly float _hitboxLifeTime = Data.Get<float>("grenadeHitboxLifeTime");
         private static readonly float _initialDebrisSpeed = Data.Get<float>("grenadeInitialDebrisSpeed");
         private static readonly float _layerDepth = Data.Get<float>("grenadeLayerDepth");
 
         public static Texture2D Texture;
 
         private static EntityContainer<Grenade> instances = new EntityContainer<Grenade>();
+
+        private HashSet<ICollider> affectedColliders;
 
         private Point bounds;
         private Sprite sprite;
@@ -26,6 +31,7 @@ namespace LD51
         private float speed;
         private float remainingLife;
         private bool active;
+        private bool exploding;
 
         private Grenade(Vector2 position, Vector2 direction)
         {
@@ -35,9 +41,12 @@ namespace LD51
             bounds = new Point(2, 2);
             sprite = new Sprite(Texture, bounds, Color.ForestGreen, _layerDepth);
 
+            affectedColliders = new HashSet<ICollider>();
+
             speed = _initialSpeed;
             remainingLife = _lifeTimeInSeconds;
             active = true;
+            exploding = false;
         }
 
         public static IEnumerable<IEntity> Instances => instances.List;
@@ -57,13 +66,31 @@ namespace LD51
 
         public void CollisionResponse(Collision collision)
         {
-            if (collision.Other is Enemy)
-            {
-                // Prevent the same bullet from affecting multiple enemies simultaneously
-                if (!active) return;
+            if (!exploding || affectedColliders.Contains(collision.Other)) return;
 
-                (collision.Other as Enemy).TakeDamage(1);
+            float overlapArea = collision.Overlap.Area();
+            float collideeArea = collision.Other.Hitbox.Area();
+            
+            // Always damage enemies whose hitboxes overlap the grenade's
+            if (collision.Other is Enemy enemy)
+            {
+                if (overlapArea >= collideeArea)
+                    enemy.TakeDamage(3);
+                else if (overlapArea >= collideeArea / 2f)
+                    enemy.TakeDamage(2);
+                else
+                    enemy.TakeDamage(1);
             }
+            else if (collision.Other is Player)
+            {
+                // If the player isn't close enough to the explosion, return before adding him to list of affected
+                // colliders so he may still be killed by one
+                if (overlapArea < collideeArea / 2f) return;
+
+                Main.GameOver();
+            }
+
+            affectedColliders.Add(collision.Other);
         }
 
         public void Update(float deltaTime)
@@ -73,7 +100,12 @@ namespace LD51
             remainingLife -= deltaTime;
 
             if (remainingLife < 0)
-                Explode();
+            {
+                if (active)
+                    Explode();
+                else if (exploding)
+                    Despawn();
+            }
 
             // Movement
 
@@ -92,7 +124,6 @@ namespace LD51
 
         public void Despawn()
         {
-            active = false;
             instances.Despawn(this);
         }
 
@@ -100,7 +131,15 @@ namespace LD51
         {
             Audio.Play("grenadeexploding");
             GoreFactory.SpawnRandomGoreExplosion(this, _initialDebrisSpeed);
-            Despawn();
+
+            active = false;
+            exploding = true;
+            remainingLife = _hitboxLifeTime;
+
+            sprite.Color = Color.DarkSlateGray * _explosionFlashAlpha;
+            sprite.Bounds = new Point(_explosionRadius, _explosionRadius);
+            bounds = new Point(_explosionRadius, _explosionRadius);
+            position -= new Vector2(_explosionRadius + 1, _explosionRadius + 1) * Sprite.GLOBAL_SCALE / 2;
         }
     }
 }

@@ -57,11 +57,11 @@ namespace LD51
             {
                 Main.GameOver();
             }
-            else if (collision.Other is Coin)
+            else if (collision.Other is Coin coin)
             {
                 if (NumberOfCoins == _maxCoins) return;
 
-                (collision.Other as Coin).Pickup();
+                coin.Pickup();
                 NumberOfCoins++;
             }
         }

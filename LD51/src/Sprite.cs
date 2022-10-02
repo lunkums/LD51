@@ -9,7 +9,6 @@ namespace LD51
 
         private Texture2D texture;
         private Point bounds;
-        private Color color;
         private float layerDepth;
         private float localScale;
 
@@ -17,7 +16,7 @@ namespace LD51
         {
             this.texture = texture;
             this.bounds = bounds;
-            this.color = color;
+            Color = color;
             this.layerDepth = layerDepth;
             this.localScale = localScale;
 
@@ -27,7 +26,9 @@ namespace LD51
         // Use these to form a "cutout" of the texture2D
         public Point TexturePosition { private get; set; }
         public float LocalScale => localScale;
-        public float Alpha { set => color = new Color(color, value); }
+        public float Alpha { set => Color = new Color(Color, value); }
+        public Point Bounds { set => bounds = value; }
+        public Color Color { get; set; }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
@@ -41,7 +42,7 @@ namespace LD51
                     (int)(bounds.X * GLOBAL_SCALE * localScale),
                     (int)(bounds.Y * GLOBAL_SCALE * localScale)),
                 new Rectangle(TexturePosition, bounds),
-                color, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+                Color, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
     }
 }

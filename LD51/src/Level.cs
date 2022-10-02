@@ -129,12 +129,22 @@ namespace LD51
                 CollisionHandler.HandleCollision(coin, player);
             }
 
+            foreach (Grenade grenade in Grenade.Instances)
+            {
+                CollisionHandler.HandleCollision(grenade, player);
+            }
+
             // This is an n^2 collision checked... probably not the best
             foreach (Enemy enemy in Enemy.Instances)
             {
                 foreach (Enemy otherEnemy in Enemy.Instances)
                 {
                     CollisionHandler.HandleCollision(enemy, otherEnemy);
+                }
+
+                foreach (Grenade grenade in Grenade.Instances)
+                {
+                    CollisionHandler.HandleCollision(grenade, enemy);
                 }
             }
         }

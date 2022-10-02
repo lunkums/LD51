@@ -17,10 +17,21 @@ namespace LD51
         {
             return v.RotateRadians(degrees * DegToRad);
         }
+        public static Vector2 RotateRadians(this Vector2 v, float radians)
+        {
+            float ca = MathF.Cos(radians);
+            float sa = MathF.Sin(radians);
+            return new Vector2(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y);
+        }
 
         public static Vector2 DirectionToMouse(this Vector2 position)
         {
             return (Input.MouseWorldPosition - position).Normalized();
+        }
+
+        public static float Area(this Rectangle rectangle)
+        {
+            return rectangle.Width * rectangle.Height;
         }
 
         public static float Lerp(float firstFloat, float secondFloat, float by)
@@ -28,12 +39,6 @@ namespace LD51
             return firstFloat * (1 - by) + secondFloat * by;
         }
 
-        public static Vector2 RotateRadians(this Vector2 v, float radians)
-        {
-            float ca = MathF.Cos(radians);
-            float sa = MathF.Sin(radians);
-            return new Vector2(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y);
-        }
 
         public static bool IsZero(float num)
         {

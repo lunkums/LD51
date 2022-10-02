@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace LD51
@@ -56,12 +55,12 @@ namespace LD51
 
         public void CollisionResponse(Collision collision)
         {
-            if (collision.Other is Enemy)
+            if (collision.Other is Enemy enemy)
             {
                 // Prevent the same bullet from affecting multiple enemies simultaneously
                 if (!active) return;
 
-                (collision.Other as Enemy).TakeDamage(1);
+                enemy.TakeDamage(1);
                 Despawn();
             }
         }
