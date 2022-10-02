@@ -4,7 +4,7 @@
   "bulletLifeTime": "1",
   "coinLifeTime": "3",
   "enemyRecentDamageTimeThreshold": "0.2",
-  "enemyBasePercentDropChance": "12.5",
+  "enemyBasePercentDropChance": "6.25",
   "enemyMaxSpeed": "171",
   "goreLifeTime": "10",
   "goreSpeedInterpolation": "0.25",

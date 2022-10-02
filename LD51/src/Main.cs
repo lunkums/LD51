@@ -75,6 +75,7 @@ namespace LD51
             Audio.AddSoundEffect("headexploding1", Content.Load<SoundEffect>("headexploding1"));
             Audio.AddSoundEffect("headexploding2", Content.Load<SoundEffect>("headexploding2"));
             Audio.AddSoundEffect("headexploding3", Content.Load<SoundEffect>("headexploding3"));
+            Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup"));
         }
 
         protected override void Update(GameTime gameTime)

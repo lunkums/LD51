@@ -19,6 +19,12 @@
 /processorParam:Quality=Best
 /build:cock.wav
 
+#begin coinpickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:coinpickup.wav
+
 #begin font.png
 /importer:TextureImporter
 /processor:TextureProcessor
