@@ -22,7 +22,8 @@ namespace LD51
 
         public Countdown()
         {
-            Reset();
+            countdown = 0;
+            Stopped = true;
             OnCountdownEnd += () => { };
         }
 

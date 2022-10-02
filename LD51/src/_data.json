@@ -34,5 +34,6 @@
   "playerStartingPositionY": "-256",
   "screenHeight": "512",
   "screenWidth": "512",
-  "spriteGlobalScale": "8"
+  "spriteGlobalScale": "8",
+  "titleScrollSpeed": "96"
 }

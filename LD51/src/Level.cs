@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -11,9 +12,13 @@ namespace LD51
         private static string[] laughSfx = new string[] { "laughter1", "laughter2" };
 
         private Player player;
+        private Rand rand;
+
+        // HUD
         private Countdown countdown;
         private CoinCounter coinCounter;
-        private Rand rand;
+        private TitleScreen titleScreen;
+        private GameOverScreen gameOverScreen;
 
         private int maxNumOfEnemies;
         private bool gameOver;
@@ -23,11 +28,15 @@ namespace LD51
             maxNumOfEnemies = 3;
 
             player = new Player();
-            countdown = new Countdown();
-            coinCounter = new CoinCounter();
             rand = new Rand();
             gameOver = false;
 
+            countdown = new Countdown();
+            coinCounter = new CoinCounter();
+            titleScreen = new TitleScreen();
+            gameOverScreen = new GameOverScreen();
+
+            titleScreen.OnDisappear += countdown.Reset;
             countdown.OnCountdownEnd += AttackEvent;
         }
 
@@ -43,20 +52,25 @@ namespace LD51
 
         public void Update(float deltaTime)
         {
-            UpdateGameLogic(deltaTime);
-            UpdateCollisions();
-            UpdateHUD(deltaTime);
-
-            // Debug
-
+            // Persistent actions
             if (Input.IsKeyPressed(Keys.R))
                 Reset();
+
+            if (Input.IsKeyPressed(Keys.Enter))
+                titleScreen.ScrollUp();
 
             if (Input.IsKeyPressed(Keys.OemPlus))
                 Audio.IncreaseVolume();
 
             if (Input.IsKeyPressed(Keys.OemMinus))
                 Audio.DecreaseVolume();
+            
+            UpdateHUD(deltaTime);
+
+            if (titleScreen.Visible) return;
+
+            UpdateGameLogic(deltaTime);
+            UpdateCollisions();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -70,6 +84,8 @@ namespace LD51
             // HUD
             countdown.Draw(spriteBatch);
             coinCounter.Draw(spriteBatch);
+            titleScreen.Draw(spriteBatch);
+            gameOverScreen.Draw(spriteBatch);
         }
 
         /*
@@ -170,6 +186,9 @@ namespace LD51
 
             coinCounter.NumberOfCoins = player?.NumberOfCoins ?? 0;
             coinCounter.Update();
+
+            gameOverScreen.Update(deltaTime);
+            titleScreen.Update(deltaTime);
         }
 
         /*

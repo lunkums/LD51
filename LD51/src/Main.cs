@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
 
 namespace LD51
 {
@@ -68,8 +67,10 @@ namespace LD51
             Countdown.Texture = font;
             CoinCounter.Texture = font;
 
-            // Add sounds
+            GameOverScreen.Texture = Content.Load<Texture2D>("gameoverscreen");
+            TitleScreen.Texture = Content.Load<Texture2D>("titlescreen");
 
+            // Add sounds
             Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
             Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup")); 
             Audio.AddSoundEffect("grenadeexploding", Content.Load<SoundEffect>("grenadeexploding"));
@@ -90,14 +91,12 @@ namespace LD51
             // Debug.WriteLine(frameRate + " FPS");
 
             // Update input
-
             Input.Update();
 
             if (Input.IsKeyDown(Keys.Escape))
                 Exit();
 
             // Update game logic
-
             level.Update(deltaTime);
 
             OnUpdateEnd.Invoke();
