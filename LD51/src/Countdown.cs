@@ -22,7 +22,7 @@ namespace LD51
 
         public Countdown()
         {
-            countdown = _lengthInSeconds;
+            Reset();
             OnCountdownEnd += () => { };
         }
 
@@ -40,8 +40,12 @@ namespace LD51
             }
         }
 
+        public bool Stopped { get; set; }
+
         public void Update(float deltaTime)
         {
+            if (Stopped) return;
+
             countdown -= deltaTime;
 
             if (countdown < 0)
@@ -61,6 +65,7 @@ namespace LD51
 
         public void Reset()
         {
+            Stopped = false;
             countdown = _lengthInSeconds;
         }
 

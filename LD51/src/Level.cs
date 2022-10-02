@@ -87,6 +87,7 @@ namespace LD51
             GoreFactory.SpawnRandomGoreExplosion(Player);
             player = null;
             gameOver = true;
+            countdown.Stopped = true;
         }
 
         public void Reset()

@@ -56,7 +56,7 @@ namespace LD51
         public Vector2 Center => Hitbox.Center.ToVector2();
         public Color DebrisColor => Color.DarkRed;
 
-        private bool CriticalDeath => recentDamageTaken > Math.Min(Size, 2);
+        private bool CriticalDeath => recentDamageTaken > Math.Max(Size - 1, 1);
 
         public static void Spawn(Vector2 position, int size)
         {
