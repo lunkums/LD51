@@ -11,6 +11,7 @@ namespace LD51
         private static readonly float _basePercentDropChance = Data.Get<float>("enemyBasePercentDropChance");
         private static readonly float _maxSpeed = Data.Get<float>("enemyMaxSpeed");
         private static readonly float _initialGoreSpeed = Data.Get<float>("enemyInitialGoreSpeed");
+        private static readonly float _layerDepth = Data.Get<float>("enemyLayerDepth");
 
         public static Texture2D Texture;
 
@@ -35,7 +36,7 @@ namespace LD51
 
             Size = size;
             bounds = new Point(size * 2, size * 2);
-            sprite = new Sprite(Texture, bounds, Color.Red);
+            sprite = new Sprite(Texture, bounds, Color.Red, _layerDepth);
             health = size;
             alive = true;
             recentDamageTaken = 0;

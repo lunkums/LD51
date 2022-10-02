@@ -10,13 +10,15 @@ namespace LD51
         private Texture2D texture;
         private Point bounds;
         private Color color;
+        private float layerDepth;
         private float localScale;
 
-        public Sprite(Texture2D texture, Point bounds, Color color, float localScale = 1f)
+        public Sprite(Texture2D texture, Point bounds, Color color, float layerDepth, float localScale = 1f)
         {
             this.texture = texture;
             this.bounds = bounds;
             this.color = color;
+            this.layerDepth = layerDepth;
             this.localScale = localScale;
 
             TexturePosition = Point.Zero;
@@ -40,6 +42,15 @@ namespace LD51
                     (int)(bounds.Y * GLOBAL_SCALE * localScale)),
                 new Rectangle(TexturePosition, bounds),
                 color);
+            spriteBatch.Draw(
+                texture,
+                new Rectangle(
+                    (int)position.X,
+                    -1 * (int)(position.Y + (bounds.Y * GLOBAL_SCALE * localScale)),
+                    (int)(bounds.X * GLOBAL_SCALE * localScale),
+                    (int)(bounds.Y * GLOBAL_SCALE * localScale)),
+                new Rectangle(TexturePosition, bounds),
+                color, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
     }
 }

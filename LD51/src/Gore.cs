@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace LD51
@@ -10,6 +9,7 @@ namespace LD51
     {
         private static readonly float _lifeTimeInSeconds = Data.Get<float>("goreLifeTime");
         private static readonly float _speedInterpolation = Data.Get<float>("goreSpeedInterpolation");
+        private static readonly float _layerDepth = Data.Get<float>("goreLayerDepth");
 
         public static Texture2D Texture;
 
@@ -29,7 +29,7 @@ namespace LD51
             this.speed = speed;
 
             bounds = size;
-            sprite = new Sprite(Texture, bounds, color, 1 / 2f);
+            sprite = new Sprite(Texture, bounds, color, _layerDepth, 1 / 2f);
 
             remainingLife = _lifeTimeInSeconds;
         }

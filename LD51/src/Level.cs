@@ -59,38 +59,13 @@ namespace LD51
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw order is based on the order in which these methods are called (i.e. the HUD is drawn on top of
-            // everything because its draw method is called last)
-
-            foreach (Gore gore in Gore.Instances)
+            // Draw order is determined by layerDepth
+            foreach (IEntity entity in Entities)
             {
-                gore.Draw(spriteBatch);
-            }
-
-            foreach (Coin coin in Coin.Instances)
-            {
-                coin.Draw(spriteBatch);
-            }
-
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                enemy.Draw(spriteBatch);
-            }
-
-            player.Draw(spriteBatch);
-
-            foreach (Grenade grenade in Grenade.Instances)
-            {
-                grenade.Draw(spriteBatch);
-            }
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                bullet.Draw(spriteBatch);
+                entity.Draw(spriteBatch);
             }
 
             // HUD
-
             countdown.Draw(spriteBatch);
             coinCounter.Draw(spriteBatch);
         }

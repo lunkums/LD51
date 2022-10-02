@@ -8,6 +8,7 @@ namespace LD51
     public class Bullet : ICollider, IEntity
     {
         private static readonly float _lifeTimeInSeconds = Data.Get<float>("bulletLifeTime");
+        private static readonly float _layerDepth = Data.Get<float>("bulletLayerDepth");
 
         private static EntityContainer<Bullet> instances = new EntityContainer<Bullet>();
 
@@ -40,7 +41,7 @@ namespace LD51
             {
                 texture = value;
                 bounds = new Point(1, 1);
-                sprite = new Sprite(texture, bounds, Color.Yellow);
+                sprite = new Sprite(texture, bounds, Color.Yellow, _layerDepth);
             }
         }
 

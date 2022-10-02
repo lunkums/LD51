@@ -11,6 +11,7 @@ namespace LD51
         private static readonly Point _positionOfDollarSign = new Point(
             Data.Get<int>("fontSpritesheetDollarSignPositionX"),
             Data.Get<int>("fontSpritesheetDollarSignPositionY"));
+        private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
 
         private static Texture2D texture;
 
@@ -36,10 +37,10 @@ namespace LD51
                 texture = value;
 
                 digitBounds = new Point(8, 8);
-                digitSprite = new Sprite(Texture, digitBounds, Color.Yellow, 1 / 2f);
+                digitSprite = new Sprite(Texture, digitBounds, Color.Yellow, _layerDepth, 1 / 2f);
 
                 dollarSignBounds = new Point(8, 10);
-                dollarSignSprite = new Sprite(Texture, dollarSignBounds, Color.Yellow, 1 / 2f)
+                dollarSignSprite = new Sprite(Texture, dollarSignBounds, Color.Yellow, _layerDepth, 1 / 2f)
                 {
                     TexturePosition = _positionOfDollarSign
                 };

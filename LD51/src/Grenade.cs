@@ -12,6 +12,7 @@ namespace LD51
         private static readonly float _speedInterpolation = Data.Get<float>("grenadeSpeedInterpolation");
         private static readonly int _explosionSize = Data.Get<int>("grenadeExplosionSize");
         private static readonly float _initialDebrisSpeed = Data.Get<float>("grenadeInitialDebrisSpeed");
+        private static readonly float _layerDepth = Data.Get<float>("grenadeLayerDepth");
 
         public static Texture2D Texture;
 
@@ -32,7 +33,7 @@ namespace LD51
             this.direction = direction;
 
             bounds = new Point(2, 2);
-            sprite = new Sprite(Texture, bounds, Color.ForestGreen);
+            sprite = new Sprite(Texture, bounds, Color.ForestGreen, _layerDepth);
 
             speed = _initialSpeed;
             remainingLife = _lifeTimeInSeconds;

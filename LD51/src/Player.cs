@@ -12,6 +12,7 @@ namespace LD51
         private readonly static float _maxCoins = Data.Get<float>("playerMaxCoins");
         private readonly static Vector2 _startingPosition = new Vector2(
             Data.Get<float>("playerStartingPositionX"), Data.Get<float>("playerStartingPositionY"));
+        private readonly static float _layerDepth = Data.Get<float>("playerLayerDepth");
 
         private static Texture2D texture;
         private static Point bounds;
@@ -35,7 +36,7 @@ namespace LD51
             {
                 texture = value;
                 bounds = new Point(4, 4);
-                sprite = new Sprite(texture, bounds, Color.White);
+                sprite = new Sprite(texture, bounds, Color.White, _layerDepth);
             }
         }
 

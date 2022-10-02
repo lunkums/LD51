@@ -10,6 +10,7 @@ namespace LD51
             Data.Get<int>("countdownSpritesheetLastDigitPositionX"),
             Data.Get<int>("countdownSpritesheetLastDigitPositionY"));
         private static readonly float _lengthInSeconds = Data.Get<int>("countdownLengthInSeconds");
+        private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
 
         public event Action OnCountdownEnd;
 
@@ -32,7 +33,7 @@ namespace LD51
             {
                 texture = value;
                 bounds = new Point(8, 8);
-                sprite = new Sprite(texture, bounds, Color.White, 1 / 2f)
+                sprite = new Sprite(texture, bounds, Color.White, _layerDepth, 1 / 2f)
                 {
                     TexturePosition = new Point(200, 8)
                 };

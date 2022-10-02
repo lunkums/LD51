@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace LD51
 {
     public class Coin : IEntity, ICollider
     {
-        private readonly float _lifeTimeInSeconds = Data.Get<float>("coinLifeTime");
+        private static readonly float _lifeTimeInSeconds = Data.Get<float>("coinLifeTime");
+        private static readonly float _layerDepth = Data.Get<float>("coinLayerDepth");
 
         private static Texture2D texture;
         private static Point bounds;
@@ -33,7 +33,7 @@ namespace LD51
             {
                 texture = value;
                 bounds = new Point(1, 2);
-                sprite = new Sprite(texture, bounds, Color.Yellow);
+                sprite = new Sprite(texture, bounds, Color.Yellow, _layerDepth);
             }
         }
 

@@ -108,10 +108,10 @@ namespace LD51
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred,
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,
                 BlendState.NonPremultiplied,
                 SamplerState.PointClamp,
-                DepthStencilState.None,
+                DepthStencilState.Default,
                 RasterizerState.CullNone,
                 null);
             level.Draw(spriteBatch);
