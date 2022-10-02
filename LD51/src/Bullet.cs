@@ -1,19 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections;
 
 namespace LD51
 {
     public class Bullet : ICollider, IEntity
     {
+        private static readonly float _lifeTimeInSeconds = Data.Get<float>("bulletLifeTime");
+
         private static EntityContainer<Bullet> instances = new EntityContainer<Bullet>();
 
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
-
-        private const float lifeTimeInSeconds = 1;
 
         private Vector2 position;
         private Vector2 direction;
@@ -27,7 +26,7 @@ namespace LD51
             this.direction = direction;
             this.speed = speed;
 
-            remainingLife = lifeTimeInSeconds;
+            remainingLife = _lifeTimeInSeconds;
             active = true;
         }
 

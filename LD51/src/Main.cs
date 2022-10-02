@@ -3,12 +3,15 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
 
 namespace LD51
 {
     public class Main : Game
     {
+        private static readonly Point _screenSize = new Point(
+            Data.Get<int>("screenWidth"),
+            Data.Get<int>("screenHeight"));
+
         public static event Action OnUpdateEnd;
         public static float TimeScale = 1f;
 
@@ -18,17 +21,14 @@ namespace LD51
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Point screenSize;
-
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            screenSize = new Point(512, 512);
-            graphics.PreferredBackBufferWidth = screenSize.X;
-            graphics.PreferredBackBufferHeight = screenSize.Y;
+            graphics.PreferredBackBufferWidth = _screenSize.X;
+            graphics.PreferredBackBufferHeight = _screenSize.Y;
             graphics.ApplyChanges();
 
             // Register this listener so the "Invoke" will never be null
@@ -41,7 +41,7 @@ namespace LD51
         {
             // Initialize the level
             level = new Level();
-            level.StartingPosition = new Vector2(screenSize.X / 2f, -screenSize.Y / 2f);
+            level.StartingPosition = new Vector2(_screenSize.X / 2f, -_screenSize.Y / 2f);
             level.Initialize();
 
             base.Initialize();

@@ -6,27 +6,22 @@ namespace LD51
 {
     public class Level
     {
-        private const float countdownLengthInSeconds = 10f;
-
         private Player player;
         private Countdown countdown;
         private Rand rand;
 
         // Starting position is set in Main
         private Vector2 startingPosition;
-        private float playerMovementSpeed;
         private int maxNumOfEnemies;
 
         public Vector2 StartingPosition { set => startingPosition = value; }
 
         public void Initialize()
         {
-            playerMovementSpeed = 512 / 2f;
-            Enemy.MaxSpeed = playerMovementSpeed * 2 / 3f;
             maxNumOfEnemies = 3;
 
-            player = new Player(startingPosition, playerMovementSpeed);
-            countdown = new Countdown(countdownLengthInSeconds);
+            player = new Player(startingPosition);
+            countdown = new Countdown();
             rand = new Rand();
 
             countdown.OnCountdownEnd += AttackEvent;
@@ -169,10 +164,6 @@ namespace LD51
             // Reset countdown
             countdown.Reset();
         }
-
-        /*
-         * Update
-         */
 
         /*
          * Events

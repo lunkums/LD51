@@ -7,7 +7,8 @@ namespace LD51
 {
     public class Player : ICollider
     {
-        private const float secondsBetweenShots = 3 / 4f;
+        private readonly static float _maxSpeed = Data.Get<float>("playerMaxSpeed");
+        private readonly static float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
 
         private static Texture2D texture;
         private static Point bounds;
@@ -18,10 +19,10 @@ namespace LD51
         private float shootCooldown;
         private bool hasReloaded;
 
-        public Player(Vector2 startingPosition, float speed)
+        public Player(Vector2 startingPosition)
         {
             position = startingPosition;
-            this.speed = speed;
+            speed = _maxSpeed;
             shootCooldown = 0;
             hasReloaded = true;
         }
@@ -95,11 +96,11 @@ namespace LD51
                 Bullet.Spawn(Center, directionToMouse.Rotate(-15), speed * 4f);
 
                 // Start cooldown
-                shootCooldown = secondsBetweenShots;
+                shootCooldown = _secondsBetweenShots;
                 hasReloaded = false;
             }
 
-            if (!hasReloaded && shootCooldown <= secondsBetweenShots / 2)
+            if (!hasReloaded && shootCooldown <= _secondsBetweenShots / 2)
             {
                 Audio.Play("cock");
                 hasReloaded = true;

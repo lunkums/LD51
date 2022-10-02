@@ -6,21 +6,22 @@ namespace LD51
 {
     public class Countdown
     {
+        private static readonly Point _positionOfLastDigit = new Point(
+            Data.Get<int>("countdownSpritesheetLastDigitPositionX"),
+            Data.Get<int>("countdownSpritesheetLastDigitPositionY"));
+        private static readonly float _lengthInSeconds = Data.Get<int>("countdownLengthInSeconds");
+
         public event Action OnCountdownEnd;
 
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
 
-        private readonly Point positionOfLastDigit = new Point(128, 8);
-        private readonly float lengthInSeconds;
-
         private float countdown;
 
-        public Countdown(float lengthInSeconds)
+        public Countdown()
         {
-            this.lengthInSeconds = lengthInSeconds;
-            countdown = lengthInSeconds;
+            countdown = _lengthInSeconds;
             OnCountdownEnd += () => { };
         }
 
@@ -44,7 +45,7 @@ namespace LD51
 
             if (countdown < 0)
             {
-                countdown = lengthInSeconds;
+                countdown = _lengthInSeconds;
                 OnCountdownEnd.Invoke();
             }
 
@@ -59,15 +60,15 @@ namespace LD51
 
         public void Reset()
         {
-            countdown = lengthInSeconds;
+            countdown = _lengthInSeconds;
         }
 
         private void SetTextureOffset()
         {
             // Floor the countdown and cap it at 1 less than the max since that digit would only display for a single
             // frame anyways
-            int rounded = Math.Min((int)Math.Floor(countdown), (int)lengthInSeconds - 1);
-            sprite.TexturePosition = positionOfLastDigit + new Point(rounded * bounds.X, 0);
+            int rounded = Math.Min((int)Math.Floor(countdown), (int)_lengthInSeconds - 1);
+            sprite.TexturePosition = _positionOfLastDigit + new Point(rounded * bounds.X, 0);
         }
     }
 }

@@ -7,13 +7,12 @@ namespace LD51
 {
     public class Gore : IEntity
     {
+        private static readonly float _lifeTimeInSeconds = Data.Get<float>("goreLifeTime");
+        private static readonly float _speedInterpolation = Data.Get<float>("goreSpeedInterpolation");
+
         public static Texture2D Texture;
 
         private static EntityContainer<Gore> instances = new EntityContainer<Gore>();
-
-        private const float lifeTimeInSeconds = 10;
-        // This value should fall within 0 and 1
-        private const float speedInterpolation = .25f;
 
         private Vector2 position;
         private Vector2 direction;
@@ -31,7 +30,7 @@ namespace LD51
             bounds = size;
             sprite = new Sprite(Texture, bounds, Color.DarkRed, 1 / 2f);
 
-            remainingLife = lifeTimeInSeconds;
+            remainingLife = _lifeTimeInSeconds;
         }
 
         public static IEnumerable Instances => instances.List;
@@ -61,13 +60,13 @@ namespace LD51
             if (remainingLife < 0)
                 Despawn();
 
-            sprite.Alpha = remainingLife / lifeTimeInSeconds;
+            sprite.Alpha = remainingLife / _lifeTimeInSeconds;
 
             // Movement
 
             position += speed * direction * deltaTime;
 
-            speed = LD51Math.Lerp(speed, 0, (float)(1 - Math.Pow(speedInterpolation, deltaTime)));
+            speed = LD51Math.Lerp(speed, 0, (float)(1 - Math.Pow(_speedInterpolation, deltaTime)));
 
             if (speed < 0.01f)
                 speed = 0;

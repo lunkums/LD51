@@ -7,15 +7,14 @@ namespace LD51
 {
     public class Enemy : ICollider, IEntity
     {
-        public static float MaxSpeed;
+        private static readonly float _recentDamageTimeThreshold = Data.Get<float>("enemyRecentDamageTimeThreshold");
+        private static readonly float _basePercentDropChance = Data.Get<float>("enemyBasePercentDropChance");
+        private static readonly float _maxSpeed = Data.Get<float>("enemyMaxSpeed");
+
         public static Texture2D Texture;
 
         private static EntityContainer<Enemy> instances = new EntityContainer<Enemy>();
         private static string[] dyingSfx = new string[] { "headexploding1", "headexploding2", "headexploding3" };
-
-        // How often, in seconds, the amount of recent damage taken resets
-        private const float recentDamageTimeThreshold = 0.2f;
-        private const float basePercentDropChance = 12.5f;
 
         private Vector2 position;
         private float speed;
@@ -40,7 +39,7 @@ namespace LD51
             alive = true;
             recentDamageTaken = 0;
             recentDamageTimer = 0f;
-            percentDropChance = basePercentDropChance * (float)Math.Pow(2, size - 1);
+            percentDropChance = _basePercentDropChance * (float)Math.Pow(2, size - 1);
 
             Direction = new Vector2();
         }
@@ -58,7 +57,7 @@ namespace LD51
         public static void Spawn(Vector2 position, int size)
         {
             size = Math.Clamp(size, 1, 3);
-            Enemy enemy = new Enemy(position, MaxSpeed / size, size);
+            Enemy enemy = new Enemy(position, _maxSpeed / size, size);
             enemy.Id = instances.Spawn(enemy);
         }
 
@@ -92,7 +91,7 @@ namespace LD51
 
             recentDamageTimer += deltaTime;
 
-            if (recentDamageTimer >= recentDamageTimeThreshold)
+            if (recentDamageTimer >= _recentDamageTimeThreshold)
             {
                 recentDamageTaken = 0;
                 recentDamageTimer = 0f;

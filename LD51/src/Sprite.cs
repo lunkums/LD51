@@ -5,8 +5,7 @@ namespace LD51
 {
     public class Sprite : ISprite
     {
-        // Also used for collisions
-        public const int GLOBAL_SCALE = 8;
+        public static readonly int GLOBAL_SCALE = Data.Get<int>("spriteGlobalScale");
 
         private Texture2D texture;
         private Point bounds;

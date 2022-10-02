@@ -1,0 +1,17 @@
+﻿{
+  "screenWidth": "512",
+  "screenHeight": "512",
+  "bulletLifeTime": "1",
+  "coinLifeTime": "3",
+  "enemyRecentDamageTimeThreshold": "0.2",
+  "enemyBasePercentDropChance": "12.5",
+  "enemyMaxSpeed": "171",
+  "goreLifeTime": "10",
+  "goreSpeedInterpolation": "0.25",
+  "countdownSpritesheetLastDigitPositionX": "128",
+  "countdownSpritesheetLastDigitPositionY": "8",
+  "countdownLengthInSeconds": "10",
+  "playerMaxSpeed": "256",
+  "playerSecondsBetweenShots": ".75",
+  "spriteGlobalScale": "8"
+}

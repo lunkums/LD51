@@ -1,19 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections;
 
 namespace LD51
 {
     public class Coin : IEntity, ICollider
     {
+        private readonly float _lifeTimeInSeconds = Data.Get<float>("coinLifeTime");
+
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
 
         private static EntityContainer<Coin> instances = new EntityContainer<Coin>();
-
-        private const float lifeTimeInSeconds = 3;
 
         private Vector2 position;
         private float remainingLife;
@@ -21,7 +20,7 @@ namespace LD51
         private Coin(Vector2 position)
         {
             this.position = position;
-            remainingLife = lifeTimeInSeconds;
+            remainingLife = _lifeTimeInSeconds;
         }
 
         public static IEnumerable Instances => instances.List;
