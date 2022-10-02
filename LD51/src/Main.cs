@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace LD51
 {
@@ -34,8 +35,6 @@ namespace LD51
             // Register this listener so the "Invoke" will never be null
             OnUpdateEnd += () => { };
         }
-
-        public static float FrameRate => frameRate;
 
         protected override void Initialize()
         {

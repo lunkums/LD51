@@ -49,17 +49,14 @@ namespace LD51
 
             // Debug
 
-            if (Input.IsKeyPressed(Keys.F12))
-                Enemy.Spawn(Vector2.Zero, 3);
-
-            if (Input.IsKeyPressed(Keys.F11))
-                foreach (Enemy enemy in Enemy.Instances)
-                {
-                    enemy.Speed = 0;
-                }
-
             if (Input.IsKeyPressed(Keys.R))
                 Reset();
+
+            if (Input.IsKeyPressed(Keys.OemPlus))
+                Audio.IncreaseVolume();
+
+            if (Input.IsKeyPressed(Keys.OemMinus))
+                Audio.DecreaseVolume();
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace LD51
 {
@@ -7,6 +9,8 @@ namespace LD51
     {
         private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
         private static Rand rand = new Rand();
+
+        private static int volume = 7;
 
         public static void AddSoundEffect(string effectName, SoundEffect effect)
         {
@@ -17,13 +21,23 @@ namespace LD51
         {
             if (soundEffects.TryGetValue(effectName, out SoundEffect effect))
             {
-                effect.Play();
+                effect.Play(volume / 10f, 0f, 0f);
             }
         }
 
         public static void PlayRandom(string[] effectNames)
         {
             Play(effectNames[rand.NextInt(0, effectNames.Length)]);
+        }
+
+        public static void IncreaseVolume()
+        {
+            volume = Math.Clamp(volume + 1, 0, 10);
+        }
+
+        public static void DecreaseVolume()
+        {
+            volume = Math.Clamp(volume - 1, 0, 10);
         }
     }
 }
