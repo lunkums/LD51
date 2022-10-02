@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LD51
 {
@@ -36,7 +37,14 @@ namespace LD51
             titleScreen = new TitleScreen();
             gameOverScreen = new GameOverScreen();
 
-            titleScreen.OnDisappear += countdown.Reset;
+            titleScreen.OnDisappear += Reset;
+            gameOverScreen.OnDeactivate += () =>
+            {
+                Reset();
+                countdown.Stopped = true;
+            };
+            gameOverScreen.OnDisappear += () => { countdown.Stopped = false; };
+
             countdown.OnCountdownEnd += AttackEvent;
         }
 
@@ -53,11 +61,11 @@ namespace LD51
         public void Update(float deltaTime)
         {
             // Persistent actions
-            if (Input.IsKeyPressed(Keys.R))
-                Reset();
-
             if (Input.IsKeyPressed(Keys.Enter))
+            {
                 titleScreen.ScrollUp();
+                gameOverScreen.Active = false;
+            }
 
             if (Input.IsKeyPressed(Keys.OemPlus))
                 Audio.IncreaseVolume();
@@ -67,7 +75,7 @@ namespace LD51
             
             UpdateHUD(deltaTime);
 
-            if (titleScreen.Visible) return;
+            if (titleScreen.Visible || (!gameOverScreen.Active && gameOverScreen.Visible)) return;
 
             UpdateGameLogic(deltaTime);
             UpdateCollisions();
@@ -101,6 +109,7 @@ namespace LD51
             player = null;
             gameOver = true;
             countdown.Stopped = true;
+            gameOverScreen.Active = true;
         }
 
         public void Reset()
