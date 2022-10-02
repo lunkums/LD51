@@ -56,6 +56,7 @@ namespace LD51
             // Add textures
             Texture2D baseTexture = new Texture2D(GraphicsDevice, 1, 1);
             baseTexture.SetData(new[] { Color.White });
+            Texture2D font = Content.Load<Texture2D>("font");
 
             // It doesn't seem to matter that these guys all share a base texture, so long as they specify their own
             // color for it
@@ -66,7 +67,8 @@ namespace LD51
             Gore.Texture = baseTexture;
             Coin.Texture = baseTexture;
 
-            Countdown.Texture = Content.Load<Texture2D>("font");
+            Countdown.Texture = font;
+            CoinCounter.Texture = font;
 
             // Add sounds
 

@@ -8,6 +8,7 @@ namespace LD51
     {
         private Player player;
         private Countdown countdown;
+        private CoinCounter coinCounter;
         private Rand rand;
 
         // Starting position is set in Main
@@ -22,6 +23,7 @@ namespace LD51
 
             player = new Player(startingPosition);
             countdown = new Countdown();
+            coinCounter = new CoinCounter(player);
             rand = new Rand();
 
             countdown.OnCountdownEnd += AttackEvent;
@@ -78,6 +80,7 @@ namespace LD51
             // HUD
 
             countdown.Draw(spriteBatch);
+            coinCounter.Draw(spriteBatch);
         }
 
         public void GameOver()
@@ -94,6 +97,7 @@ namespace LD51
             maxNumOfEnemies = 3;
 
             // Reset entities
+            player.Reset();
             Bullet.DespawnAll();
             Enemy.DespawnAll();
             Gore.DespawnAll();
@@ -166,6 +170,7 @@ namespace LD51
         private void UpdateHUD(float deltaTime)
         {
             countdown.Update(deltaTime);
+            coinCounter.Update();
         }
 
         /*

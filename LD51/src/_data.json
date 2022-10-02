@@ -13,5 +13,6 @@
   "countdownLengthInSeconds": "10",
   "playerMaxSpeed": "256",
   "playerSecondsBetweenShots": ".75",
+  "playerMaxCoins": "9",
   "spriteGlobalScale": "8"
 }

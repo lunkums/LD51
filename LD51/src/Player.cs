@@ -9,6 +9,7 @@ namespace LD51
     {
         private readonly static float _maxSpeed = Data.Get<float>("playerMaxSpeed");
         private readonly static float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
+        private readonly static float _maxCoins = Data.Get<float>("playerMaxCoins");
 
         private static Texture2D texture;
         private static Point bounds;
@@ -40,7 +41,11 @@ namespace LD51
 
         public Vector2 Position { get => position; set => position = value; }
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
-        public int NumberOfCoins { get => numberOfCoins; private set => numberOfCoins = (int)MathF.Max(value, 9); }
+        public int NumberOfCoins
+        {
+            get => numberOfCoins;
+            private set => numberOfCoins = (int)MathF.Min(value, _maxCoins);
+        }
 
         private Vector2 Center => Hitbox.Center.ToVector2();
 
@@ -53,6 +58,7 @@ namespace LD51
             else if (collision.Other is Coin)
             {
                 (collision.Other as Coin).Pickup();
+                NumberOfCoins++;
             }
         }
 
