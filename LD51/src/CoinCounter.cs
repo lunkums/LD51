@@ -8,10 +8,18 @@ namespace LD51
         private static readonly Point _positionOfFirstDigit = new Point(
             Data.Get<int>("countdownSpritesheetLastDigitPositionX"),
             Data.Get<int>("countdownSpritesheetLastDigitPositionY"));
+        private static readonly Point _positionOfDollarSign = new Point(
+            Data.Get<int>("fontSpritesheetDollarSignPositionX"),
+            Data.Get<int>("fontSpritesheetDollarSignPositionY"));
 
         private static Texture2D texture;
-        private static Point bounds;
-        private static Sprite sprite;
+
+        // These fields need to be static so that they are initialized after this class is instantiated but before the
+        // first draw call occurs
+        private static Point digitBounds;
+        private static Sprite digitSprite;
+        private static Point dollarSignBounds;
+        private static Sprite dollarSignSprite;
 
         private Player player;
 
@@ -26,10 +34,14 @@ namespace LD51
             set
             {
                 texture = value;
-                bounds = new Point(8, 8);
-                sprite = new Sprite(texture, bounds, Color.Yellow, 1 / 2f)
+
+                digitBounds = new Point(8, 8);
+                digitSprite = new Sprite(Texture, digitBounds, Color.Yellow, 1 / 2f);
+
+                dollarSignBounds = new Point(8, 10);
+                dollarSignSprite = new Sprite(Texture, dollarSignBounds, Color.Yellow, 1 / 2f)
                 {
-                    TexturePosition = new Point(200, 8)
+                    TexturePosition = _positionOfDollarSign
                 };
             }
         }
@@ -41,14 +53,19 @@ namespace LD51
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 position = new Vector2(120, -128 + 2)
-                * sprite.LocalScale * Sprite.GLOBAL_SCALE;
-            sprite.Draw(spriteBatch, position);
+            Vector2 digitPosition = new Vector2(120, -128 + 2)
+                * digitSprite.LocalScale * Sprite.GLOBAL_SCALE;
+            Vector2 dollarSignPosition = new Vector2(112, -128 + 1)
+                * digitSprite.LocalScale * Sprite.GLOBAL_SCALE;
+
+            digitSprite.Draw(spriteBatch, digitPosition);
+            dollarSignSprite.Draw(spriteBatch, dollarSignPosition);
         }
 
         private void SetTextureOffset()
         {
-            sprite.TexturePosition = _positionOfFirstDigit + new Point((player.NumberOfCoins % 10) * bounds.X, 0);
+            digitSprite.TexturePosition = _positionOfFirstDigit
+                + new Point((player.NumberOfCoins % 10) * digitBounds.X, 0);
         }
     }
 }

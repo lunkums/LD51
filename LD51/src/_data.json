@@ -10,6 +10,8 @@
   "goreSpeedInterpolation": "0.25",
   "countdownSpritesheetLastDigitPositionX": "128",
   "countdownSpritesheetLastDigitPositionY": "8",
+  "fontSpritesheetDollarSignPositionX": "32",
+  "fontSpritesheetDollarSignPositionY": "7",
   "countdownLengthInSeconds": "10",
   "playerMaxSpeed": "256",
   "playerSecondsBetweenShots": ".75",
