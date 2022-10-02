@@ -19,6 +19,11 @@ namespace LD51
             return v.RotateRadians(degrees * DegToRad);
         }
 
+        public static Vector2 DirectionToMouse(this Vector2 position)
+        {
+            return (Input.MouseWorldPosition - position).Normalized();
+        }
+
         public static float Lerp(float firstFloat, float secondFloat, float by)
         {
             return firstFloat * (1 - by) + secondFloat * by;

@@ -57,6 +57,8 @@ namespace LD51
             }
             else if (collision.Other is Coin)
             {
+                if (NumberOfCoins == _maxCoins) return;
+
                 (collision.Other as Coin).Pickup();
                 NumberOfCoins++;
             }
@@ -90,6 +92,7 @@ namespace LD51
             position += moveDirection.Normalized() * speed * deltaTime;
 
             // Shooting
+            Vector2 directionToMouse = position.DirectionToMouse();
 
             if (Input.LeftMousePressed() && shootCooldown <= 0)
             {
@@ -97,7 +100,6 @@ namespace LD51
                 Audio.Play("shoot");
 
                 // Spawn bullet
-                Vector2 directionToMouse = (Input.MouseWorldPosition - position).Normalized();
                 Bullet.Spawn(Center, directionToMouse, speed * 4f);
                 Bullet.Spawn(Center, directionToMouse.Rotate(15), speed * 4f);
                 Bullet.Spawn(Center, directionToMouse.Rotate(-15), speed * 4f);
@@ -105,6 +107,11 @@ namespace LD51
                 // Start cooldown
                 shootCooldown = _secondsBetweenShots;
                 hasReloaded = false;
+            }
+
+            if (Input.RightMousePressed())
+            {
+                Grenade.Spawn(Center, directionToMouse);
             }
 
             if (!hasReloaded && shootCooldown <= _secondsBetweenShots / 2)

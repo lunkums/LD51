@@ -61,6 +61,7 @@ namespace LD51
             // It doesn't seem to matter that these guys all share a base texture, so long as they specify their own
             // color for it
             Gore.Texture = baseTexture;
+            Grenade.Texture = baseTexture;
             Player.Texture = baseTexture;
             Enemy.Texture = baseTexture;
             Bullet.Texture = baseTexture;

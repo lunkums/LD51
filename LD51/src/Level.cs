@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections;
 
 namespace LD51
 {
@@ -65,6 +66,11 @@ namespace LD51
                 coin.Draw(spriteBatch);
             }
 
+            foreach (Grenade grenade in Grenade.Instances)
+            {
+                grenade.Draw(spriteBatch);
+            }
+
             foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Draw(spriteBatch);
@@ -101,6 +107,7 @@ namespace LD51
             Bullet.DespawnAll();
             Enemy.DespawnAll();
             Gore.DespawnAll();
+            Grenade.DespawnAll();
             Coin.DespawnAll();
 
             // Reset countdown
@@ -119,6 +126,11 @@ namespace LD51
             {
                 enemy.Direction = (player.Position - enemy.Position).Normalized();
                 enemy.Update(deltaTime);
+            }
+
+            foreach (Grenade grenade in Grenade.Instances)
+            {
+                grenade.Update(deltaTime);
             }
 
             foreach (Bullet bullet in Bullet.Instances)

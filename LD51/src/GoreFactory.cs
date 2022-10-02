@@ -5,6 +5,8 @@ namespace LD51
 {
     public class GoreFactory
     {
+        private static readonly float _maxInitialSpeed = Data.Get<float>("goreMaxInitialSpeed");
+
         private static Rand random = new Rand();
 
         public static void SpawnRandomGoreExplosion(Enemy enemy)
@@ -15,7 +17,7 @@ namespace LD51
                 Gore.Spawn(
                     enemy.Center,
                     new Vector2(random.NextInt(-10, 10), random.NextInt(-10, 10)).Normalized(),
-                    random.NextInt(512 / 8, 512 / 4),
+                    random.NextInt((int)_maxInitialSpeed / 2, (int)_maxInitialSpeed),
                     new Point(random.NextInt(1, 4), random.NextInt(1, 4)));
             }
         }
