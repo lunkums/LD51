@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace LD51
 {
@@ -23,7 +24,7 @@ namespace LD51
             remainingLife = _lifeTimeInSeconds;
         }
 
-        public static IEnumerable Instances => instances.List;
+        public static IEnumerable<IEntity> Instances => instances.List;
 
         public static Texture2D Texture
         {
@@ -48,14 +49,6 @@ namespace LD51
             coin.Id = instances.Spawn(coin);
         }
 
-        public static void DespawnAll()
-        {
-            foreach (Coin coin in Instances)
-            {
-                coin.Despawn();
-            }
-        }
-
         public void Update(float deltaTime)
         {
             // Lifetime
@@ -77,7 +70,7 @@ namespace LD51
             Despawn();
         }
 
-        private void Despawn()
+        public void Despawn()
         {
             instances.Despawn(this);
         }

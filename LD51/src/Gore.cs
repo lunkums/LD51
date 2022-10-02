@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace LD51
 {
@@ -33,7 +34,7 @@ namespace LD51
             remainingLife = _lifeTimeInSeconds;
         }
 
-        public static IEnumerable Instances => instances.List;
+        public static IEnumerable<IEntity> Instances => instances.List;
 
         public uint Id { get; private set; }
 
@@ -41,14 +42,6 @@ namespace LD51
         {
             Gore gore = new Gore(position, direction, speed, size);
             gore.Id = instances.Spawn(gore);
-        }
-
-        public static void DespawnAll()
-        {
-            foreach (Gore gore in Instances)
-            {
-                gore.Despawn();
-            }
         }
 
         public void Update(float deltaTime)
@@ -77,7 +70,7 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
-        private void Despawn()
+        public void Despawn()
         {
             instances.Despawn(this);
         }

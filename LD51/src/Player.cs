@@ -5,27 +5,27 @@ using System;
 
 namespace LD51
 {
-    public class Player : ICollider
+    public class Player : ICollider, IEntity
     {
         private readonly static float _maxSpeed = Data.Get<float>("playerMaxSpeed");
         private readonly static float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
         private readonly static float _maxCoins = Data.Get<float>("playerMaxCoins");
+        private readonly static Vector2 _startingPosition = new Vector2(
+            Data.Get<float>("playerStartingPositionX"), Data.Get<float>("playerStartingPositionY"));
 
         private static Texture2D texture;
         private static Point bounds;
         private static Sprite sprite;
 
-        private Vector2 startingPosition;
         private Vector2 position;
         private float speed;
         private float shootCooldown;
         private bool hasReloaded;
         private int numberOfCoins;
 
-        public Player(Vector2 startingPosition)
+        public Player()
         {
-            this.startingPosition = startingPosition;
-            Reset();
+            Despawn();
         }
 
         public static Texture2D Texture
@@ -46,6 +46,7 @@ namespace LD51
             get => numberOfCoins;
             private set => numberOfCoins = (int)MathF.Min(value, _maxCoins);
         }
+        public uint Id => 999;
 
         private Vector2 Center => Hitbox.Center.ToVector2();
 
@@ -126,9 +127,10 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
-        public void Reset()
+        // This method is hijacked as a "reset" method, doesn't really despawn the player
+        public void Despawn()
         {
-            position = startingPosition;
+            position = _startingPosition;
             speed = _maxSpeed;
             shootCooldown = 0;
             hasReloaded = true;

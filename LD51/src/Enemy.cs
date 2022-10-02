@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace LD51
 {
@@ -44,8 +45,7 @@ namespace LD51
             Direction = new Vector2();
         }
 
-        public static IEnumerable Instances => instances.List;
-        public static (IEnumerable, IEnumerable) SplitInstances => instances.SplitLists;
+        public static IEnumerable<IEntity> Instances => instances.List;
 
         public Vector2 Direction { get; set; }
         public Vector2 Position => position;
@@ -60,14 +60,6 @@ namespace LD51
             size = Math.Clamp(size, 1, 3);
             Enemy enemy = new Enemy(position, _maxSpeed / size, size);
             enemy.Id = instances.Spawn(enemy);
-        }
-
-        public static void DespawnAll()
-        {
-            foreach (Enemy enemy in Instances)
-            {
-                instances.Despawn(enemy);
-            }
         }
 
         public void CollisionResponse(Collision collision)
@@ -92,7 +84,7 @@ namespace LD51
 
             recentDamageTimer += deltaTime;
 
-            if (recentDamageTimer >= _recentDamageTimeThreshold)
+            if (recentDamageTimer >= _recentDamageTimeThreshold && health > 0)
             {
                 recentDamageTaken = 0;
                 recentDamageTimer = 0f;
@@ -102,6 +94,11 @@ namespace LD51
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, position);
+        }
+
+        public void Despawn()
+        {
+            instances.Despawn(this);
         }
 
         public void TakeDamage(int damage)

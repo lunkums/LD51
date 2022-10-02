@@ -41,15 +41,9 @@ namespace LD51
             return MathF.Abs(num) <= float.Epsilon;
         }
 
-        public static (IEnumerable<V>, IEnumerable<V>) Split<K, V>(this Dictionary<K, V> source)
+        public static IEnumerable<T> Yield<T>(this T item)
         {
-            if (source.Count < 2) return (source.Values, Array.Empty<V>());
-            Dictionary<K, V>[] result = source
-                .Select((kvp, n) => new { kvp, k = n % 2 })
-                .GroupBy(x => x.k, x => x.kvp)
-                .Select(x => x.ToDictionary(y => y.Key, y => y.Value))
-                .ToArray();
-            return (result[0].Values, result[1].Values);
+            yield return item;
         }
     }
 }

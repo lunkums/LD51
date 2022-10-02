@@ -41,7 +41,6 @@ namespace LD51
         {
             // Initialize the level
             level = new Level();
-            level.StartingPosition = new Vector2(_screenSize.X / 2f, -_screenSize.Y / 2f);
             level.Initialize();
 
             base.Initialize();

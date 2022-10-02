@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace LD51
@@ -20,8 +19,7 @@ namespace LD51
             Main.OnUpdateEnd += ClearActionQueue;
         }
 
-        public IEnumerable List => entities.Values;
-        public (IEnumerable, IEnumerable) SplitLists => entities.Split();
+        public IEnumerable<T> List => entities.Values;
 
         public uint Spawn(T entity)
         {

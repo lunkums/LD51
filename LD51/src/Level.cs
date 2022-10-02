@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LD51
 {
@@ -13,22 +14,27 @@ namespace LD51
         private Rand rand;
 
         // Starting position is set in Main
-        private Vector2 startingPosition;
         private int maxNumOfEnemies;
-
-        public Vector2 StartingPosition { set => startingPosition = value; }
 
         public void Initialize()
         {
             maxNumOfEnemies = 3;
 
-            player = new Player(startingPosition);
+            player = new Player();
             countdown = new Countdown();
             coinCounter = new CoinCounter(player);
             rand = new Rand();
 
             countdown.OnCountdownEnd += AttackEvent;
         }
+
+        public IEnumerable<IEntity> Entities =>
+            Bullet.Instances
+            .Concat(Coin.Instances)
+            .Concat(Enemy.Instances)
+            .Concat(Gore.Instances)
+            .Concat(Grenade.Instances)
+            .Concat((player as IEntity).Yield());
 
         public void Update(float deltaTime)
         {
@@ -99,16 +105,13 @@ namespace LD51
             Main.TimeScale = 1f;
 
             // Reset locals
-            player.Position = startingPosition;
             maxNumOfEnemies = 3;
 
             // Reset entities
-            player.Reset();
-            Bullet.DespawnAll();
-            Enemy.DespawnAll();
-            Gore.DespawnAll();
-            Grenade.DespawnAll();
-            Coin.DespawnAll();
+            foreach (IEntity entity in Entities)
+            {
+                entity.Despawn();
+            }
 
             // Reset countdown
             countdown.Reset();
@@ -120,32 +123,14 @@ namespace LD51
 
         private void UpdateGameLogic(float deltaTime)
         {
-            player.Update(deltaTime);
-
             foreach (Enemy enemy in Enemy.Instances)
             {
                 enemy.Direction = (player.Position - enemy.Position).Normalized();
-                enemy.Update(deltaTime);
             }
 
-            foreach (Grenade grenade in Grenade.Instances)
+            foreach (IEntity entity in Entities)
             {
-                grenade.Update(deltaTime);
-            }
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                bullet.Update(deltaTime);
-            }
-
-            foreach (Gore gore in Gore.Instances)
-            {
-                gore.Update(deltaTime);
-            }
-
-            foreach (Coin coin in Coin.Instances)
-            {
-                coin.Update(deltaTime);
+                entity.Update(deltaTime);
             }
         }
 
@@ -224,7 +209,9 @@ namespace LD51
                     return new Vector2(rand.NextInt(512, 512 + 32), -rand.NextInt(0, 512));
                 default:
                     // Shouldn't happen
-                    return startingPosition;
+                    return new Vector2(
+                        Data.Get<float>("playerStartingPositionX"),
+                        Data.Get<float>("playerStartingPositionY"));
             }
         }
     }

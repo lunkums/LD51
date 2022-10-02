@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace LD51
 {
@@ -37,7 +37,7 @@ namespace LD51
             active = true;
         }
 
-        public static IEnumerable Instances => instances.List;
+        public static IEnumerable<IEntity> Instances => instances.List;
 
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
         public uint Id { get; private set; }
@@ -46,14 +46,6 @@ namespace LD51
         {
             Grenade grenade = new Grenade(position, direction);
             grenade.Id = instances.Spawn(grenade);
-        }
-
-        public static void DespawnAll()
-        {
-            foreach (Grenade grenade in Instances)
-            {
-                grenade.Despawn();
-            }
         }
 
         public void CollisionResponse(Collision collision)
@@ -92,7 +84,7 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
-        private void Despawn()
+        public void Despawn()
         {
             active = false;
             instances.Despawn(this);

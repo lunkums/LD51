@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace LD51
 {
@@ -30,7 +31,7 @@ namespace LD51
             active = true;
         }
 
-        public static IEnumerable Instances => instances.List;
+        public static IEnumerable<IEntity> Instances => instances.List;
 
         public static Texture2D Texture
         {
@@ -50,14 +51,6 @@ namespace LD51
         {
             Bullet bullet = new Bullet(position, direction, speed);
             bullet.Id = instances.Spawn(bullet);
-        }
-
-        public static void DespawnAll()
-        {
-            foreach (Bullet bullet in Instances)
-            {
-                bullet.Despawn();
-            }
         }
 
         public void CollisionResponse(Collision collision)
@@ -87,7 +80,7 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
-        private void Despawn()
+        public void Despawn()
         {
             active = false;
             instances.Despawn(this);
