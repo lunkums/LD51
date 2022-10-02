@@ -72,6 +72,8 @@ namespace LD51
 
             // Add sounds
             Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
+            Audio.AddSoundEffect("clack", Content.Load<SoundEffect>("clack"));
+            Audio.AddSoundEffect("click", Content.Load<SoundEffect>("click"));
             Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup")); 
             Audio.AddSoundEffect("grenadeexploding", Content.Load<SoundEffect>("grenadeexploding"));
             Audio.AddSoundEffect("grenadepriming", Content.Load<SoundEffect>("grenadepriming"));

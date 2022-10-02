@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace LD51
 {
@@ -32,12 +30,18 @@ namespace LD51
 
         public static void IncreaseVolume()
         {
-            volume = Math.Clamp(volume + 1, 0, 10);
+            if (volume > 9) return;
+
+            volume++;
+            Play("click");
         }
 
         public static void DecreaseVolume()
         {
-            volume = Math.Clamp(volume - 1, 0, 10);
+            if (volume < 1) return;
+
+            volume--;
+            Play("click");
         }
     }
 }

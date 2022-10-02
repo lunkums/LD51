@@ -72,6 +72,7 @@ namespace LD51
             {
                 if ((Input.IsKeyPressed(Keys.Enter) || Input.LeftMousePressed()) && gameOver)
                 {
+                    Audio.Play("clack");
                     titleScreen.ScrollUp();
                     gameOverScreen.Active = false;
                 }

@@ -8,7 +8,7 @@ namespace LD51
     public class Data
     {
         private static Dictionary<string, string> data = new Dictionary<string, string>();
-        private static string dataFilePath = "src/_data.json";
+        private static string dataFilePath = "settings/settings.json";
 
         static Data()
         {
