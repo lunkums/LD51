@@ -13,7 +13,7 @@ namespace LD51
             for (int i = 0; i < numOfGoryBits; i++)
             {
                 Gore.Spawn(
-                    enemy.Position,
+                    enemy.Center,
                     new Vector2(random.NextInt(-10, 10), random.NextInt(-10, 10)).Normalized(),
                     random.NextInt(512 / 8, 512 / 4),
                     new Point(random.NextInt(1, 4), random.NextInt(1, 4)));

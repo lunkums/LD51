@@ -53,6 +53,7 @@ namespace LD51
         public uint Id { get; private set; }
         public float Speed { set => speed = value; }
         public int Size { get; private set; }
+        public Vector2 Center => Hitbox.Center.ToVector2();
 
         public static void Spawn(Vector2 position, int size)
         {
