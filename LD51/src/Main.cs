@@ -78,6 +78,8 @@ namespace LD51
             Audio.AddSoundEffect("headexploding1", Content.Load<SoundEffect>("headexploding1"));
             Audio.AddSoundEffect("headexploding2", Content.Load<SoundEffect>("headexploding2"));
             Audio.AddSoundEffect("headexploding3", Content.Load<SoundEffect>("headexploding3"));
+            Audio.AddSoundEffect("laughter1", Content.Load<SoundEffect>("laughter1"));
+            Audio.AddSoundEffect("laughter2", Content.Load<SoundEffect>("laughter2"));
             Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
         }
 

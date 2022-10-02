@@ -31,7 +31,7 @@ namespace LD51
             active = true;
         }
 
-        public static IEnumerable<IEntity> Instances => instances.List;
+        public static IEnumerable<Bullet> Instances => instances.List;
 
         public static Texture2D Texture
         {

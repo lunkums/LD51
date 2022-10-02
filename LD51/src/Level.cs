@@ -8,13 +8,15 @@ namespace LD51
 {
     public class Level
     {
+        private static string[] laughSfx = new string[] { "laughter1", "laughter2" };
+
         private Player player;
         private Countdown countdown;
         private CoinCounter coinCounter;
         private Rand rand;
 
-        // Starting position is set in Main
         private int maxNumOfEnemies;
+        private bool gameOver;
 
         public void Initialize()
         {
@@ -22,19 +24,22 @@ namespace LD51
 
             player = new Player();
             countdown = new Countdown();
-            coinCounter = new CoinCounter(player);
+            coinCounter = new CoinCounter();
             rand = new Rand();
+            gameOver = false;
 
             countdown.OnCountdownEnd += AttackEvent;
         }
 
-        public IEnumerable<IEntity> Entities =>
-            Bullet.Instances
+        private IPlayer Player => player == null ? NullPlayer.Instance : player;
+
+        private IEnumerable<IEntity> Entities =>
+            (Player as IEntity).Yield()
             .Concat(Coin.Instances)
             .Concat(Enemy.Instances)
             .Concat(Gore.Instances)
             .Concat(Grenade.Instances)
-            .Concat((player as IEntity).Yield());
+            .Concat(Bullet.Instances);
 
         public void Update(float deltaTime)
         {
@@ -70,17 +75,29 @@ namespace LD51
             coinCounter.Draw(spriteBatch);
         }
 
+        /*
+         * Game state
+         */
+
         public void GameOver()
         {
-            Main.TimeScale = 0f;
+            if (gameOver) return;
+
+            Audio.PlayRandom(laughSfx);
+            GoreFactory.SpawnRandomGoreExplosion(Player);
+            player = null;
+            gameOver = true;
         }
 
         public void Reset()
         {
             Main.TimeScale = 1f;
 
+            player = new Player();
+
             // Reset locals
             maxNumOfEnemies = 3;
+            gameOver = false;
 
             // Reset entities
             foreach (IEntity entity in Entities)
@@ -100,7 +117,7 @@ namespace LD51
         {
             foreach (Enemy enemy in Enemy.Instances)
             {
-                enemy.Direction = (player.Position - enemy.Position).Normalized();
+                enemy.Direction = (Player.Position - enemy.Position).Normalized();
             }
 
             foreach (IEntity entity in Entities)
@@ -121,17 +138,17 @@ namespace LD51
 
             foreach (Enemy enemy in Enemy.Instances)
             {
-                CollisionHandler.HandleCollision(enemy, player);
+                CollisionHandler.HandleCollision(enemy, Player);
             }
 
             foreach (Coin coin in Coin.Instances)
             {
-                CollisionHandler.HandleCollision(coin, player);
+                CollisionHandler.HandleCollision(coin, Player);
             }
 
             foreach (Grenade grenade in Grenade.Instances)
             {
-                CollisionHandler.HandleCollision(grenade, player);
+                CollisionHandler.HandleCollision(grenade, Player);
             }
 
             // This is an n^2 collision checked... probably not the best
@@ -152,6 +169,8 @@ namespace LD51
         private void UpdateHUD(float deltaTime)
         {
             countdown.Update(deltaTime);
+
+            coinCounter.NumberOfCoins = player?.NumberOfCoins ?? 0;
             coinCounter.Update();
         }
 

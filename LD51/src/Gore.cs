@@ -34,7 +34,7 @@ namespace LD51
             remainingLife = _lifeTimeInSeconds;
         }
 
-        public static IEnumerable<IEntity> Instances => instances.List;
+        public static IEnumerable<Gore> Instances => instances.List;
 
         public uint Id { get; private set; }
 

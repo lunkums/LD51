@@ -5,12 +5,11 @@ using System.Collections.Generic;
 
 namespace LD51
 {
-    public class Enemy : ICollider, IEntity, IExplodeable
+    public class Enemy : ICollider, IEntity, IExplodable
     {
         private static readonly float _recentDamageTimeThreshold = Data.Get<float>("enemyRecentDamageTimeThreshold");
         private static readonly float _basePercentDropChance = Data.Get<float>("enemyBasePercentDropChance");
         private static readonly float _maxSpeed = Data.Get<float>("enemyMaxSpeed");
-        private static readonly float _initialGoreSpeed = Data.Get<float>("enemyInitialGoreSpeed");
         private static readonly float _layerDepth = Data.Get<float>("enemyLayerDepth");
 
         public static Texture2D Texture;
@@ -46,7 +45,7 @@ namespace LD51
             Direction = new Vector2();
         }
 
-        public static IEnumerable<IEntity> Instances => instances.List;
+        public static IEnumerable<Enemy> Instances => instances.List;
 
         public Vector2 Direction { get; set; }
         public Vector2 Position => position;
@@ -117,7 +116,7 @@ namespace LD51
             if (CriticalDeath)
             {
                 Audio.PlayRandom(dyingSfx);
-                GoreFactory.SpawnRandomGoreExplosion(this, _initialGoreSpeed);
+                GoreFactory.SpawnRandomGoreExplosion(this);
                 percentDropChance *= 2;
             }
 

@@ -22,13 +22,6 @@ namespace LD51
         private static Point dollarSignBounds;
         private static Sprite dollarSignSprite;
 
-        private Player player;
-
-        public CoinCounter(Player player)
-        {
-            this.player = player;
-        }
-
         public static Texture2D Texture
         {
             get => texture;
@@ -47,9 +40,11 @@ namespace LD51
             }
         }
 
+        public int NumberOfCoins { get; set; } = 0;
+
         public void Update()
         {
-            SetTextureOffset();
+            SetTextureOffset(NumberOfCoins);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -63,10 +58,10 @@ namespace LD51
             dollarSignSprite.Draw(spriteBatch, dollarSignPosition);
         }
 
-        private void SetTextureOffset()
+        private void SetTextureOffset(int numOfCoins)
         {
             digitSprite.TexturePosition = _positionOfFirstDigit
-                + new Point((player.NumberOfCoins % 10) * digitBounds.X, 0);
+                + new Point((numOfCoins % 10) * digitBounds.X, 0);
         }
     }
 }

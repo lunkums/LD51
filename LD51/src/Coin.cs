@@ -24,7 +24,7 @@ namespace LD51
             remainingLife = _lifeTimeInSeconds;
         }
 
-        public static IEnumerable<IEntity> Instances => instances.List;
+        public static IEnumerable<Coin> Instances => instances.List;
 
         public static Texture2D Texture
         {

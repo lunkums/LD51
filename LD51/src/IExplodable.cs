@@ -2,7 +2,7 @@
 
 namespace LD51
 {
-    public interface IExplodeable
+    public interface IExplodable
     {
         int Size { get; }
         Vector2 Center { get; }

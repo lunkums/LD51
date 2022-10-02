@@ -73,6 +73,18 @@
 /processorParam:Quality=Best
 /build:headexploding3.wav
 
+#begin laughter1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:laughter1.wav
+
+#begin laughter2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:laughter2.wav
+
 #begin shoot.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

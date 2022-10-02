@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LD51
 {
-    public class Grenade : IEntity, IExplodeable, ICollider
+    public class Grenade : IEntity, IExplodable, ICollider
     {
         private static readonly float _lifeTimeInSeconds = Data.Get<float>("grenadeLifeTime");
         private static readonly float _initialSpeed = Data.Get<float>("grenadeInitialSpeed");
@@ -49,7 +49,7 @@ namespace LD51
             exploding = false;
         }
 
-        public static IEnumerable<IEntity> Instances => instances.List;
+        public static IEnumerable<Grenade> Instances => instances.List;
 
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
         public uint Id { get; private set; }
@@ -81,13 +81,13 @@ namespace LD51
                 else
                     enemy.TakeDamage(1);
             }
-            else if (collision.Other is Player)
+            else if (collision.Other is Player player)
             {
                 // If the player isn't close enough to the explosion, return before adding him to list of affected
                 // colliders so he may still be killed by one
                 if (overlapArea < collideeArea / 2f) return;
 
-                Main.GameOver();
+                player.Die();
             }
 
             affectedColliders.Add(collision.Other);
@@ -139,7 +139,7 @@ namespace LD51
             sprite.Color = Color.DarkSlateGray * _explosionFlashAlpha;
             sprite.Bounds = new Point(_explosionRadius, _explosionRadius);
             bounds = new Point(_explosionRadius, _explosionRadius);
-            position -= new Vector2(_explosionRadius + 1, _explosionRadius + 1) * Sprite.GLOBAL_SCALE / 2;
+            position -= new Vector2(_explosionRadius, _explosionRadius) * Sprite.GLOBAL_SCALE / 2;
         }
     }
 }

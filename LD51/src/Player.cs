@@ -5,14 +5,16 @@ using System;
 
 namespace LD51
 {
-    public class Player : ICollider, IEntity
+    public class Player : IPlayer
     {
-        private readonly static float _maxSpeed = Data.Get<float>("playerMaxSpeed");
-        private readonly static float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
-        private readonly static float _maxCoins = Data.Get<float>("playerMaxCoins");
-        private readonly static Vector2 _startingPosition = new Vector2(
+        private static readonly float _maxSpeed = Data.Get<float>("playerMaxSpeed");
+        private static readonly float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
+        private static readonly int _maxCoins = Data.Get<int>("playerMaxCoins");
+        private static readonly Vector2 _startingPosition = new Vector2(
             Data.Get<float>("playerStartingPositionX"), Data.Get<float>("playerStartingPositionY"));
-        private readonly static float _layerDepth = Data.Get<float>("playerLayerDepth");
+        private static readonly float _layerDepth = Data.Get<float>("playerLayerDepth");
+
+        private static string[] dyingSfx = new string[] { "headexploding1", "headexploding2", "headexploding3" };
 
         private static Texture2D texture;
         private static Point bounds;
@@ -23,6 +25,7 @@ namespace LD51
         private float shootCooldown;
         private bool hasReloaded;
         private int numberOfCoins;
+        private bool dead;
 
         public Player()
         {
@@ -49,13 +52,15 @@ namespace LD51
         }
         public uint Id => 999;
 
-        private Vector2 Center => Hitbox.Center.ToVector2();
+        public int Size => 2;
+        public Color DebrisColor => Color.DarkRed;
+        public Vector2 Center => Hitbox.Center.ToVector2();
 
         public void CollisionResponse(Collision collision)
         {
             if (collision.Other is Enemy)
             {
-                Main.GameOver();
+                Die();
             }
             else if (collision.Other is Coin coin)
             {
@@ -128,9 +133,19 @@ namespace LD51
             sprite.Draw(spriteBatch, position);
         }
 
+        public void Die()
+        {
+            if (dead) return;
+
+            Audio.PlayRandom(dyingSfx);
+            Main.GameOver();
+            dead = true;
+        }
+
         // This method is hijacked as a "reset" method, doesn't really despawn the player
         public void Despawn()
         {
+            dead = false;
             position = _startingPosition;
             speed = _maxSpeed;
             shootCooldown = 0;
