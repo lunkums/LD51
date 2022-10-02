@@ -84,7 +84,7 @@ namespace LD51
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * TimeScale;
-            float frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+            frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Debug.WriteLine(frameRate + " FPS");
 
@@ -108,12 +108,10 @@ namespace LD51
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.FrontToBack,
-                BlendState.NonPremultiplied,
-                SamplerState.PointClamp,
-                DepthStencilState.Default,
-                RasterizerState.CullNone,
-                null);
+            // BackToFront means a sprite with layerDepth 0 is drawn on top of a sprite with layerDepth 1
+            // NonPremultiplied allows for sprite alphas
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.PointClamp,
+                DepthStencilState.None, RasterizerState.CullNone);
             level.Draw(spriteBatch);
             spriteBatch.End();
 

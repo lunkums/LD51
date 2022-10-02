@@ -41,15 +41,6 @@ namespace LD51
                     (int)(bounds.X * GLOBAL_SCALE * localScale),
                     (int)(bounds.Y * GLOBAL_SCALE * localScale)),
                 new Rectangle(TexturePosition, bounds),
-                color);
-            spriteBatch.Draw(
-                texture,
-                new Rectangle(
-                    (int)position.X,
-                    -1 * (int)(position.Y + (bounds.Y * GLOBAL_SCALE * localScale)),
-                    (int)(bounds.X * GLOBAL_SCALE * localScale),
-                    (int)(bounds.Y * GLOBAL_SCALE * localScale)),
-                new Rectangle(TexturePosition, bounds),
                 color, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
     }
