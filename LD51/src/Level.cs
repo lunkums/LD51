@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace LD51
 {
@@ -72,7 +70,7 @@ namespace LD51
             // Can't hit retry if the game over screen hasn't fully loaded
             if (!(gameOverScreen.Active && !gameOverScreen.FullyVisible))
             {
-                if (Input.IsKeyPressed(Keys.Enter) && gameOver)
+                if ((Input.IsKeyPressed(Keys.Enter) || Input.LeftMousePressed()) && gameOver)
                 {
                     titleScreen.ScrollUp();
                     gameOverScreen.Active = false;

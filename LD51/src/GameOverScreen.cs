@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace LD51
 {
@@ -8,6 +8,7 @@ namespace LD51
     {
         private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
         private static readonly float _scrollSpeed = Data.Get<float>("titleScrollSpeed");
+        private static readonly float _scrollDelay = Data.Get<float>("gameOverScrollDelay");
 
         private static Texture2D texture;
 
@@ -16,11 +17,13 @@ namespace LD51
 
         private Vector2 position;
         private int direction;
+        private float scrollCountdown;
 
         public GameOverScreen()
         {
             position = Vector2.Zero;
             direction = 1;
+            scrollCountdown = 0;
             OnDisappear += () => { };
             OnDeactivate += () => { };
         }
@@ -37,6 +40,7 @@ namespace LD51
             {
                 direction = value ? -1 : 1;
                 if (!Active) OnDeactivate.Invoke();
+                else scrollCountdown = _scrollDelay;
             }
         }
 
@@ -54,6 +58,10 @@ namespace LD51
         public void Update(float deltaTime)
         {
             if ((Active && FullyVisible) || (!Active && !Visible)) return;
+
+            scrollCountdown = MathF.Max(scrollCountdown - deltaTime, -0.1f);
+
+            if (scrollCountdown > 0) return;
 
             position += Vector2.UnitY * Math.Sign(direction) * _scrollSpeed * deltaTime;
 

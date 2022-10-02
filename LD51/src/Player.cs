@@ -148,8 +148,8 @@ namespace LD51
             dead = false;
             position = _startingPosition;
             speed = _maxSpeed;
-            shootCooldown = 0;
-            hasReloaded = true;
+            shootCooldown = _secondsBetweenShots;
+            hasReloaded = false;
             NumberOfCoins = 0;
         }
     }

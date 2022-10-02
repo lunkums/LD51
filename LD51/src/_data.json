@@ -12,6 +12,7 @@
   "enemyRecentDamageTimeThreshold": "0.2",
   "fontSpritesheetDollarSignPositionX": "32",
   "fontSpritesheetDollarSignPositionY": "7",
+  "gameOverScrollDelay": "1.5",
   "goreInitialSpeed": "128",
   "goreLayerDepth": "0.60",
   "goreLifeTime": "10",
