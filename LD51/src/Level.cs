@@ -29,71 +29,9 @@ namespace LD51
 
         public void Update(float deltaTime)
         {
-            // Player
-
-            player.Update(deltaTime);
-
-            // Enemy
-
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                enemy.Direction = (player.Position - enemy.Position).Normalized();
-                enemy.Update(deltaTime);
-            }
-
-            // Bullets
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                bullet.Update(deltaTime);
-            }
-
-            // Gore
-
-            foreach (Gore gore in Gore.Instances)
-            {
-                gore.Update(deltaTime);
-            }
-
-            // Coins
-
-            foreach (Coin coin in Coin.Instances)
-            {
-                coin.Update(deltaTime);
-            }
-
-            // Collisions
-
-            foreach (Bullet bullet in Bullet.Instances)
-            {
-                foreach (Enemy enemy in Enemy.Instances)
-                {
-                    CollisionHandler.HandleCollision(bullet, enemy);
-                }
-            }
-
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                CollisionHandler.HandleCollision(enemy, player);
-            }
-
-            foreach (Coin coin in Coin.Instances)
-            {
-                CollisionHandler.HandleCollision(coin, player);
-            }
-
-            // This is an n^2 collision checked... probably not the best
-            foreach (Enemy enemy in Enemy.Instances)
-            {
-                foreach (Enemy otherEnemy in Enemy.Instances)
-                {
-                    CollisionHandler.HandleCollision(enemy, otherEnemy);
-                }
-            }
-
-            // HUD
-
-            countdown.Update(deltaTime);
+            UpdateGameLogic(deltaTime);
+            UpdateCollisions();
+            UpdateHUD(deltaTime);
 
             // Debug
 
@@ -163,6 +101,71 @@ namespace LD51
 
             // Reset countdown
             countdown.Reset();
+        }
+
+        /*
+         * Update
+         */
+
+        private void UpdateGameLogic(float deltaTime)
+        {
+            player.Update(deltaTime);
+
+            foreach (Enemy enemy in Enemy.Instances)
+            {
+                enemy.Direction = (player.Position - enemy.Position).Normalized();
+                enemy.Update(deltaTime);
+            }
+
+            foreach (Bullet bullet in Bullet.Instances)
+            {
+                bullet.Update(deltaTime);
+            }
+
+            foreach (Gore gore in Gore.Instances)
+            {
+                gore.Update(deltaTime);
+            }
+
+            foreach (Coin coin in Coin.Instances)
+            {
+                coin.Update(deltaTime);
+            }
+        }
+
+        private void UpdateCollisions()
+        {
+            foreach (Bullet bullet in Bullet.Instances)
+            {
+                foreach (Enemy enemy in Enemy.Instances)
+                {
+                    CollisionHandler.HandleCollision(bullet, enemy);
+                }
+            }
+
+            foreach (Enemy enemy in Enemy.Instances)
+            {
+                CollisionHandler.HandleCollision(enemy, player);
+            }
+
+            foreach (Coin coin in Coin.Instances)
+            {
+                CollisionHandler.HandleCollision(coin, player);
+            }
+
+            // This is an n^2 collision checked... probably not the best
+            foreach (Enemy enemy in Enemy.Instances)
+            {
+                foreach (Enemy otherEnemy in Enemy.Instances)
+                {
+                    CollisionHandler.HandleCollision(enemy, otherEnemy);
+                }
+            }
+        }
+
+        private void UpdateHUD(float deltaTime)
+        {
+            countdown.Update(deltaTime);
         }
 
         /*
