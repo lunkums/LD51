@@ -14,17 +14,17 @@ namespace LD51
         private static Point bounds;
         private static Sprite sprite;
 
+        private Vector2 startingPosition;
         private Vector2 position;
         private float speed;
         private float shootCooldown;
         private bool hasReloaded;
+        private int numberOfCoins;
 
         public Player(Vector2 startingPosition)
         {
-            position = startingPosition;
-            speed = _maxSpeed;
-            shootCooldown = 0;
-            hasReloaded = true;
+            this.startingPosition = startingPosition;
+            Reset();
         }
 
         public static Texture2D Texture
@@ -40,6 +40,7 @@ namespace LD51
 
         public Vector2 Position { get => position; set => position = value; }
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
+        public int NumberOfCoins { get => numberOfCoins; private set => numberOfCoins = (int)MathF.Max(value, 9); }
 
         private Vector2 Center => Hitbox.Center.ToVector2();
 
@@ -57,7 +58,7 @@ namespace LD51
 
         public void Update(float deltaTime)
         {
-            shootCooldown = Math.Max(shootCooldown - deltaTime, -1);
+            shootCooldown = MathF.Max(shootCooldown - deltaTime, -1);
 
             // Movement
 
@@ -110,6 +111,15 @@ namespace LD51
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, position);
+        }
+
+        public void Reset()
+        {
+            position = startingPosition;
+            speed = _maxSpeed;
+            shootCooldown = 0;
+            hasReloaded = true;
+            NumberOfCoins = 0;
         }
     }
 }

@@ -66,7 +66,7 @@ namespace LD51
 
             position += speed * direction * deltaTime;
 
-            speed = LD51Math.Lerp(speed, 0, (float)(1 - Math.Pow(_speedInterpolation, deltaTime)));
+            speed = LD51Math.Lerp(speed, 0, 1 - MathF.Pow(_speedInterpolation, deltaTime));
 
             if (speed < 0.01f)
                 speed = 0;

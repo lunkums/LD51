@@ -67,7 +67,7 @@ namespace LD51
         {
             // Floor the countdown and cap it at 1 less than the max since that digit would only display for a single
             // frame anyways
-            int rounded = Math.Min((int)Math.Floor(countdown), (int)_lengthInSeconds - 1);
+            int rounded = (int)MathF.Min(MathF.Floor(countdown), _lengthInSeconds - 1);
             sprite.TexturePosition = _positionOfLastDigit + new Point(rounded * bounds.X, 0);
         }
     }

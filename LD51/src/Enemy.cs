@@ -39,7 +39,7 @@ namespace LD51
             alive = true;
             recentDamageTaken = 0;
             recentDamageTimer = 0f;
-            percentDropChance = _basePercentDropChance * (float)Math.Pow(2, size - 1);
+            percentDropChance = _basePercentDropChance * MathF.Pow(2, size - 1);
 
             Direction = new Vector2();
         }

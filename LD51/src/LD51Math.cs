@@ -7,7 +7,7 @@ namespace LD51
 {
     public static class LD51Math
     {
-        private const float DegToRad = (float)(Math.PI / 180);
+        private const float DegToRad = MathF.PI / 180;
 
         public static Vector2 Normalized(this Vector2 vector)
         {
@@ -26,14 +26,14 @@ namespace LD51
 
         public static Vector2 RotateRadians(this Vector2 v, float radians)
         {
-            float ca = (float)Math.Cos(radians);
-            float sa = (float)Math.Sin(radians);
+            float ca = MathF.Cos(radians);
+            float sa = MathF.Sin(radians);
             return new Vector2(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y);
         }
 
         public static bool IsZero(float num)
         {
-            return Math.Abs(num) <= float.Epsilon;
+            return MathF.Abs(num) <= float.Epsilon;
         }
 
         public static (IEnumerable<V>, IEnumerable<V>) Split<K, V>(this Dictionary<K, V> source)
