@@ -30,7 +30,7 @@ namespace LD51
 
             player = new Player();
             rand = new Rand();
-            gameOver = false;
+            gameOver = true;
 
             countdown = new Countdown();
             coinCounter = new CoinCounter();
@@ -61,19 +61,23 @@ namespace LD51
         public void Update(float deltaTime)
         {
             // Persistent actions
-            if (Input.IsKeyPressed(Keys.Enter))
-            {
-                titleScreen.ScrollUp();
-                gameOverScreen.Active = false;
-            }
-
             if (Input.IsKeyPressed(Keys.OemPlus))
                 Audio.IncreaseVolume();
 
             if (Input.IsKeyPressed(Keys.OemMinus))
                 Audio.DecreaseVolume();
-            
+
             UpdateHUD(deltaTime);
+
+            // Can't hit retry if the game over screen hasn't fully loaded
+            if (!(gameOverScreen.Active && !gameOverScreen.FullyVisible))
+            {
+                if (Input.IsKeyPressed(Keys.Enter) && gameOver)
+                {
+                    titleScreen.ScrollUp();
+                    gameOverScreen.Active = false;
+                }
+            }
 
             if (titleScreen.Visible || (!gameOverScreen.Active && gameOverScreen.Visible)) return;
 

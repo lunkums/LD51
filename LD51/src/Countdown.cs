@@ -68,6 +68,8 @@ namespace LD51
         {
             Stopped = false;
             countdown = _lengthInSeconds;
+            // Needed for edge cases of resetting the timer while gameTime is frozen
+            SetTextureOffset();
         }
 
         private void SetTextureOffset()
