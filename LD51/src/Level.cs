@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -8,10 +8,13 @@ namespace LD51
 {
     public class Level
     {
+        private static readonly float _scrollDelay = Data.Get<float>("gameOverScrollDelay");
+
         private static string[] laughSfx = new string[] { "laughter1", "laughter2" };
 
+        private State state;
         private Player player;
-        private Rand rand;
+        private Arena arena;
 
         // HUD
         private Countdown countdown;
@@ -19,31 +22,32 @@ namespace LD51
         private TitleScreen titleScreen;
         private GameOverScreen gameOverScreen;
 
-        private int maxNumOfEnemies;
-        private bool gameOver;
-
         public void Initialize()
         {
-            maxNumOfEnemies = 3;
-
+            state = State.GameOver;
             player = new Player();
-            rand = new Rand();
-            gameOver = true;
+            arena = new Arena();
 
             countdown = new Countdown();
             coinCounter = new CoinCounter();
             titleScreen = new TitleScreen();
             gameOverScreen = new GameOverScreen();
 
-            titleScreen.OnDisappear += Reset;
-            gameOverScreen.OnDeactivate += () =>
+            titleScreen.OnDisappear += Play;
+            gameOverScreen.OnDisappear += Play;
+            gameOverScreen.OnFullyAppear += () =>
             {
-                Reset();
-                countdown.Stopped = true;
+                state = State.GameOver;
             };
-            gameOverScreen.OnDisappear += () => { countdown.Stopped = false; };
 
-            countdown.OnCountdownEnd += AttackEvent;
+            countdown.OnCountdownEnd += arena.BeginNextRound;
+        }
+        
+        private enum State
+        {
+            Playing, // Indicates the game logical is still updating
+            Transitioning, // Indicates going from "GameOver" state to "Playing" state
+            GameOver
         }
 
         private IPlayer Player => player == null ? NullPlayer.Instance : player;
@@ -56,6 +60,10 @@ namespace LD51
             .Concat(Grenade.Instances)
             .Concat(Bullet.Instances);
 
+        /*
+         * Main loops
+         */
+
         public void Update(float deltaTime)
         {
             // Persistent actions
@@ -66,22 +74,27 @@ namespace LD51
                 Audio.DecreaseVolume();
 
             UpdateHUD(deltaTime);
-
-            // Can't hit retry if the game over screen hasn't fully loaded
-            if (!(gameOverScreen.Active && !gameOverScreen.FullyVisible))
+            
+            switch (state)
             {
-                if ((Input.IsKeyPressed(Keys.Enter) || Input.LeftMousePressed()) && gameOver)
-                {
-                    Audio.Play("clack");
-                    titleScreen.ScrollUp();
-                    gameOverScreen.Active = false;
-                }
+                case State.GameOver:
+                    if (Input.IsKeyPressed(Keys.Enter) || Input.LeftMousePressed())
+                    {
+                        Audio.Play("clack");
+                        Reset();
+                    }
+                    break;
+                case State.Playing:
+                    UpdateGameLogic(deltaTime);
+                    UpdateCollisions();
+                    break;
+                case State.Transitioning:
+                    // Don't update the game or take input if the level is transitioning
+                    break;
+                default:
+                    // Shouldn't happen
+                    break;
             }
-
-            if (titleScreen.Visible || (!gameOverScreen.Active && gameOverScreen.Visible)) return;
-
-            UpdateGameLogic(deltaTime);
-            UpdateCollisions();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -103,40 +116,47 @@ namespace LD51
          * Game state
          */
 
-        public void GameOver()
+        public void Play()
         {
-            if (gameOver) return;
-
-            Audio.PlayRandom(laughSfx);
-            GoreFactory.SpawnRandomGoreExplosion(Player);
-            player = null;
-            gameOver = true;
-            countdown.Stopped = true;
-            gameOverScreen.Active = true;
+            state = State.Playing;
+            countdown.Start();
         }
 
         public void Reset()
         {
-            Main.TimeScale = 1f;
+            state = State.Transitioning;
 
-            player = new Player();
-
-            // Reset locals
-            maxNumOfEnemies = 3;
-            gameOver = false;
+            titleScreen.ScrollUp();
+            gameOverScreen.Active = false;
 
             // Reset entities
             foreach (IEntity entity in Entities)
             {
                 entity.Despawn();
             }
+            player = new Player();
 
-            // Reset countdown
             countdown.Reset();
+            arena.Reset();
+        }
+
+        public void GameOver()
+        {
+            if (state == State.GameOver) return;
+
+            GoreFactory.SpawnRandomGoreExplosion(Player);
+            player = null;
+            countdown.Stop();
+
+            Coroutine.InvokeDelayed(() =>
+            {
+                Audio.PlayRandom(laughSfx);
+                gameOverScreen.Active = true;
+            }, _scrollDelay);
         }
 
         /*
-         * Update
+         * Update methods
          */
 
         private void UpdateGameLogic(float deltaTime)
@@ -196,56 +216,11 @@ namespace LD51
         {
             countdown.Update(deltaTime);
 
-            coinCounter.NumberOfCoins = player?.NumberOfCoins ?? 0;
+            coinCounter.NumberOfCoins = Player.NumberOfCoins;
             coinCounter.Update();
 
             gameOverScreen.Update(deltaTime);
             titleScreen.Update(deltaTime);
-        }
-
-        /*
-         * Events
-         */
-
-        private void AttackEvent()
-        {
-            SpawnEnemies(maxNumOfEnemies++);
-        }
-
-        private void SpawnEnemies(int maxNumOfEnemies)
-        {
-            int numOfEnemies = rand.NextInt(maxNumOfEnemies / 2, maxNumOfEnemies);
-
-            for (int i = 0; i < numOfEnemies; i++)
-            {
-                Enemy.Spawn(GetRandomSpawnPosition(), rand.NextInt(1, 4));
-            }
-        }
-
-        private Vector2 GetRandomSpawnPosition()
-        {
-            int randomSide = rand.NextInt(0, 4);
-
-            switch (randomSide)
-            {
-                case 0:
-                    // Top
-                    return new Vector2(rand.NextInt(0, 512), rand.NextInt(0, 32));
-                case 1:
-                    // Bottom
-                    return new Vector2(rand.NextInt(0, 512), -rand.NextInt(512 + 32, 512 + 64));
-                case 2:
-                    // Left
-                    return new Vector2(rand.NextInt(-64, -32), -rand.NextInt(0, 512));
-                case 3:
-                    // Right
-                    return new Vector2(rand.NextInt(512, 512 + 32), -rand.NextInt(0, 512));
-                default:
-                    // Shouldn't happen
-                    return new Vector2(
-                        Data.Get<float>("playerStartingPositionX"),
-                        Data.Get<float>("playerStartingPositionY"));
-            }
         }
     }
 }

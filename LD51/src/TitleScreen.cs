@@ -26,7 +26,7 @@ namespace LD51
 
         public event Action OnDisappear;
 
-        public bool Visible => position.Y < 0;
+        private bool Visible => position.Y < 0;
 
         public static Texture2D Texture
         {

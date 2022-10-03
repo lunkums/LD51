@@ -19,11 +19,12 @@ namespace LD51
         private static Sprite sprite;
 
         private float countdown;
+        private bool stopped;
 
         public Countdown()
         {
             countdown = 0;
-            Stopped = true;
+            stopped = true;
             OnCountdownEnd += () => { };
         }
 
@@ -41,11 +42,9 @@ namespace LD51
             }
         }
 
-        public bool Stopped { get; set; }
-
         public void Update(float deltaTime)
         {
-            if (Stopped) return;
+            if (stopped) return;
 
             countdown -= deltaTime;
 
@@ -66,10 +65,20 @@ namespace LD51
 
         public void Reset()
         {
-            Stopped = false;
+            stopped = true;
             countdown = _lengthInSeconds;
             // Needed for edge cases of resetting the timer while gameTime is frozen
             SetTextureOffset();
+        }
+
+        public void Start()
+        {
+            stopped = false;
+        }
+
+        public void Stop()
+        {
+            stopped = true;
         }
 
         private void SetTextureOffset()

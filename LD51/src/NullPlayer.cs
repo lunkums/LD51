@@ -30,5 +30,6 @@ namespace LD51
         public Vector2 Center => Vector2.Zero;
         public Color DebrisColor => Color.White;
         public Vector2 Position { get; } = new Vector2(-3825968, 3825968);
+        public int NumberOfCoins => 0;
     }
 }
