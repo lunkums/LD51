@@ -21,6 +21,17 @@ The game was made in 48 hours for the Ludum Dare 51 game jam using MonoGame. I h
 - Volume up/down: +/-
 - Exit: Escape
 
+## Projection
+
+- Make money useful
+  - Make grenades purchasable (and give them a cooldown)
+- Prevent shooting and clicking when the game window is out of focus
+- Create walls for the arena
+- Add music
+- Make the arena dynamic
+- Add screen shake
+- Add other weapons
+
 ## Credits
 
 - JROB774, "Sharp Retro Font." opengameart.org, https://opengameart.org/content/sharp-retro-font.
