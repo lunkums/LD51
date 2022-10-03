@@ -21,7 +21,7 @@ The game was made in 48 hours for the Ludum Dare 51 game jam using MonoGame. I h
 - Volume up/down: +/-
 - Exit: Escape
 
-## Projection
+## TODO
 
 - Make money useful
   - Make grenades purchasable (and give them a cooldown)
