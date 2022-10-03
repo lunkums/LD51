@@ -67,9 +67,9 @@ namespace LD51
 
         public void CollisionResponse(Collision collision)
         {
-            if (collision.Other is Enemy)
+            if (collision.Other is Enemy enemy && enemy.Size >= Size)
             {
-                while (Hitbox.Intersects(collision.Other.Hitbox))
+                while (Hitbox.Intersects(enemy.Hitbox))
                 {
                     position += collision.Direction(this);
                 }

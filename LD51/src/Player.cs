@@ -154,7 +154,7 @@ namespace LD51
             position = _startingPosition;
             speed = _maxSpeed;
             shootCooldown = _secondsBetweenShots;
-            grenadeCooldown = _secondsBetweenGrenades;
+            grenadeCooldown = 0;
             hasReloaded = false;
             NumberOfCoins = 0;
         }
