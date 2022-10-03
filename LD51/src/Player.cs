@@ -9,6 +9,7 @@ namespace LD51
     {
         private static readonly float _maxSpeed = Data.Get<float>("playerMaxSpeed");
         private static readonly float _secondsBetweenShots = Data.Get<float>("playerSecondsBetweenShots");
+        private static readonly float _secondsBetweenGrenades = Data.Get<float>("playerSecondsBetweenGrenades");
         private static readonly int _maxCoins = Data.Get<int>("playerMaxCoins");
         private static readonly Vector2 _startingPosition = new Vector2(
             Data.Get<float>("playerStartingPositionX"), Data.Get<float>("playerStartingPositionY"));
@@ -23,6 +24,7 @@ namespace LD51
         private Vector2 position;
         private float speed;
         private float shootCooldown;
+        private float grenadeCooldown;
         private bool hasReloaded;
         private int numberOfCoins;
         private bool dead;
@@ -74,6 +76,7 @@ namespace LD51
         public void Update(float deltaTime)
         {
             shootCooldown = MathF.Max(shootCooldown - deltaTime, -1);
+            grenadeCooldown = MathF.Max(grenadeCooldown - deltaTime, -1);
 
             // Movement
 
@@ -116,9 +119,11 @@ namespace LD51
                 hasReloaded = false;
             }
 
-            if (Input.RightMousePressed())
+            if (Input.RightMousePressed() && grenadeCooldown <= 0)
             {
                 Grenade.Spawn(Center, directionToMouse);
+
+                grenadeCooldown = _secondsBetweenGrenades;
             }
 
             if (!hasReloaded && shootCooldown <= _secondsBetweenShots / 2)
@@ -149,6 +154,7 @@ namespace LD51
             position = _startingPosition;
             speed = _maxSpeed;
             shootCooldown = _secondsBetweenShots;
+            grenadeCooldown = _secondsBetweenGrenades;
             hasReloaded = false;
             NumberOfCoins = 0;
         }

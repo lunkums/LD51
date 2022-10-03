@@ -6,7 +6,7 @@ namespace LD51
 {
     public class GameOverScreen : IGoodUpdateable, IGoodDrawable
     {
-        private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
+        private static readonly float _layerDepth = Data.Get<float>("hudLayerDepth");
         private static readonly float _scrollSpeed = Data.Get<float>("titleScrollSpeed");
 
         private static Texture2D texture;

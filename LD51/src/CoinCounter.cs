@@ -11,7 +11,7 @@ namespace LD51
         private static readonly Point _positionOfDollarSign = new Point(
             Data.Get<int>("fontSpritesheetDollarSignPositionX"),
             Data.Get<int>("fontSpritesheetDollarSignPositionY"));
-        private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
+        private static readonly float _layerDepth = Data.Get<float>("hudLayerDepth");
 
         private static Texture2D texture;
 

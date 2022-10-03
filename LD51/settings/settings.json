@@ -30,6 +30,7 @@
   "playerLayerDepth": "0.30",
   "playerMaxCoins": "9",
   "playerMaxSpeed": "256",
+  "playerSecondsBetweenGrenades": "3",
   "playerSecondsBetweenShots": ".75",
   "playerStartingPositionX": "256",
   "playerStartingPositionY": "-256",

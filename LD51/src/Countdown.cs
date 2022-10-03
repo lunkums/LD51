@@ -9,8 +9,8 @@ namespace LD51
         private static readonly Point _positionOfLastDigit = new Point(
             Data.Get<int>("countdownSpritesheetLastDigitPositionX"),
             Data.Get<int>("countdownSpritesheetLastDigitPositionY"));
-        private static readonly float _lengthInSeconds = Data.Get<int>("countdownLengthInSeconds");
-        private static readonly float _layerDepth = Data.Get<int>("hudLayerDepth");
+        private static readonly float _lengthInSeconds = Data.Get<float>("countdownLengthInSeconds");
+        private static readonly float _layerDepth = Data.Get<float>("hudLayerDepth");
 
         public event Action OnCountdownEnd;
 

@@ -124,10 +124,5 @@ namespace LD51
         {
             level.GameOver();
         }
-
-        public static void Reset()
-        {
-            level.Reset();
-        }
     }
 }

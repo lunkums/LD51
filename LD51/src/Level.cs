@@ -46,7 +46,7 @@ namespace LD51
         private enum State
         {
             Playing, // Indicates the game logical is still updating
-            Transitioning, // Indicates going from "GameOver" state to "Playing" state
+            Resetting, // Indicates going from "GameOver" state to "Playing" state
             GameOver
         }
 
@@ -88,8 +88,8 @@ namespace LD51
                     UpdateGameLogic(deltaTime);
                     UpdateCollisions();
                     break;
-                case State.Transitioning:
-                    // Don't update the game or take input if the level is transitioning
+                case State.Resetting:
+                    // Don't update the game or take input if the level is resetting
                     break;
                 default:
                     // Shouldn't happen
@@ -124,7 +124,7 @@ namespace LD51
 
         public void Reset()
         {
-            state = State.Transitioning;
+            state = State.Resetting;
 
             titleScreen.ScrollUp();
             gameOverScreen.Active = false;
