@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace LD51
 {
@@ -12,6 +13,7 @@ namespace LD51
 
         private static string[] laughSfx = new string[] { "laughter1", "laughter2" };
 
+        private Game game;
         private State state;
         private Player player;
         private Arena arena;
@@ -21,6 +23,11 @@ namespace LD51
         private CoinCounter coinCounter;
         private TitleScreen titleScreen;
         private GameOverScreen gameOverScreen;
+
+        public Level(Game game)
+        {
+            this.game = game;
+        }
 
         public void Initialize()
         {
@@ -67,6 +74,9 @@ namespace LD51
         public void Update(float deltaTime)
         {
             // Persistent actions
+            if (Input.IsKeyPressed(Keys.Escape))
+                game.Exit();
+
             if (Input.IsKeyPressed(Keys.OemPlus))
                 Audio.IncreaseVolume();
 

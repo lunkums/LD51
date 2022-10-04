@@ -51,7 +51,6 @@ namespace LD51
         public Vector2 Position => position;
         public Rectangle Hitbox => RectToHitbox.Translate(position, bounds);
         public uint Id { get; private set; }
-        public float Speed { set => speed = value; }
         public int Size { get; private set; }
         public Vector2 Center => Hitbox.Center.ToVector2();
         public Color DebrisColor => Color.DarkRed;

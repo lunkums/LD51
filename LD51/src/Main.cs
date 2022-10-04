@@ -38,7 +38,7 @@ namespace LD51
         protected override void Initialize()
         {
             // Initialize the level
-            level = new Level();
+            level = new Level(this);
             level.Initialize();
 
             base.Initialize();
@@ -93,10 +93,7 @@ namespace LD51
             // Debug.WriteLine(frameRate + " FPS");
 
             // Update input
-            Input.Update();
-
-            if (Input.IsKeyDown(Keys.Escape))
-                Exit();
+            Input.Update(IsActive);
 
             // Update game logic
             level.Update(deltaTime);
