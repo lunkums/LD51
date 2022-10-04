@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace LD51
@@ -16,7 +15,6 @@ namespace LD51
         public static float TimeScale = 1f;
 
         private static Level level;
-        private static float frameRate;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -34,6 +32,8 @@ namespace LD51
             // Register this listener so the "Invoke" will never be null
             OnUpdateEnd += () => { };
         }
+
+        public float FrameRate { get; private set; }
 
         protected override void Initialize()
         {
@@ -66,6 +66,7 @@ namespace LD51
 
             Countdown.Texture = font;
             CoinCounter.Texture = font;
+            FpsCounter.Texture = font;
 
             GameOverScreen.Texture = Content.Load<Texture2D>("gameoverscreen");
             TitleScreen.Texture = Content.Load<Texture2D>("titlescreen");
@@ -88,10 +89,8 @@ namespace LD51
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * TimeScale;
-            frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            // Debug.WriteLine(frameRate + " FPS");
-
+            FrameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
             // Update input
             Input.Update(IsActive);
 

@@ -6,7 +6,7 @@ namespace LD51
 {
     public class GameOverScreen : IGoodUpdateable, IGoodDrawable
     {
-        private static readonly float _layerDepth = Data.Get<float>("hudLayerDepth");
+        private static readonly float _layerDepth = Data.Get<float>("screenLayerDepth");
         private static readonly float _scrollSpeed = Data.Get<float>("titleScrollSpeed");
 
         private static Texture2D texture;
@@ -55,7 +55,7 @@ namespace LD51
 
             position += Vector2.UnitY * Math.Sign(direction) * _scrollSpeed * deltaTime;
 
-            // These guard clause should prevent these from being invoked more than once
+            // The guard clause should prevent these from being invoked more than once
             if (FullyVisible) OnFullyAppear.Invoke();
             else if (!Visible) OnDisappear.Invoke();
         }

@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 
 namespace LD51
 {
@@ -13,7 +11,7 @@ namespace LD51
 
         private static string[] laughSfx = new string[] { "laughter1", "laughter2" };
 
-        private Game game;
+        private Main game;
         private State state;
         private Player player;
         private Arena arena;
@@ -21,10 +19,11 @@ namespace LD51
         // HUD
         private Countdown countdown;
         private CoinCounter coinCounter;
+        private FpsCounter fpsCounter;
         private TitleScreen titleScreen;
         private GameOverScreen gameOverScreen;
 
-        public Level(Game game)
+        public Level(Main game)
         {
             this.game = game;
         }
@@ -37,6 +36,7 @@ namespace LD51
 
             countdown = new Countdown();
             coinCounter = new CoinCounter();
+            fpsCounter = new FpsCounter();
             titleScreen = new TitleScreen();
             gameOverScreen = new GameOverScreen();
 
@@ -73,17 +73,9 @@ namespace LD51
 
         public void Update(float deltaTime)
         {
-            // Persistent actions
-            if (Input.IsKeyPressed(Keys.Escape))
-                game.Exit();
+            CheckPersistentActions();
 
-            if (Input.IsKeyPressed(Keys.OemPlus))
-                Audio.IncreaseVolume();
-
-            if (Input.IsKeyPressed(Keys.OemMinus))
-                Audio.DecreaseVolume();
-
-            UpdateHUD(deltaTime);
+            UpdateHud(deltaTime);
             
             switch (state)
             {
@@ -118,6 +110,7 @@ namespace LD51
             // HUD
             countdown.Draw(spriteBatch);
             coinCounter.Draw(spriteBatch);
+            fpsCounter.Draw(spriteBatch);
             titleScreen.Draw(spriteBatch);
             gameOverScreen.Draw(spriteBatch);
         }
@@ -163,6 +156,25 @@ namespace LD51
                 Audio.PlayRandom(laughSfx);
                 gameOverScreen.Active = true;
             }, _scrollDelay);
+        }
+
+        /*
+         * Input
+         */
+
+        private void CheckPersistentActions()
+        {
+            if (Input.IsKeyPressed(Keys.Escape))
+                game.Exit();
+
+            if (Input.IsKeyPressed(Keys.OemPlus))
+                Audio.IncreaseVolume();
+
+            if (Input.IsKeyPressed(Keys.OemMinus))
+                Audio.DecreaseVolume();
+
+            if (Input.IsKeyPressed(Keys.F12))
+                fpsCounter.Toggle();
         }
 
         /*
@@ -222,13 +234,14 @@ namespace LD51
             }
         }
 
-        private void UpdateHUD(float deltaTime)
+        private void UpdateHud(float deltaTime)
         {
-            countdown.Update(deltaTime);
+            fpsCounter.Update(game.FrameRate);
 
             coinCounter.NumberOfCoins = Player.NumberOfCoins;
             coinCounter.Update();
 
+            countdown.Update(deltaTime);
             gameOverScreen.Update(deltaTime);
             titleScreen.Update(deltaTime);
         }
