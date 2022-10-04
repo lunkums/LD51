@@ -82,21 +82,21 @@ namespace LD51
 
             Vector2 moveDirection = new Vector2();
 
-            if (Input.IsKeyDown(Keys.W))
+            if (Input.IsKeyDown(KeyBindings.Up))
             {
                 moveDirection += Vector2.UnitY;
             }
-            if (Input.IsKeyDown(Keys.S))
+            if (Input.IsKeyDown(KeyBindings.Down))
             {
                 moveDirection -= Vector2.UnitY;
             }
-            if (Input.IsKeyDown(Keys.D))
-            {
-                moveDirection += Vector2.UnitX;
-            }
-            if (Input.IsKeyDown(Keys.A))
+            if (Input.IsKeyDown(KeyBindings.Left))
             {
                 moveDirection -= Vector2.UnitX;
+            }
+            if (Input.IsKeyDown(KeyBindings.Right))
+            {
+                moveDirection += Vector2.UnitX;
             }
 
             position += moveDirection.Normalized() * speed * deltaTime;

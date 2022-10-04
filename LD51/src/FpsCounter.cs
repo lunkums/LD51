@@ -13,7 +13,6 @@ namespace LD51
 
         private static Texture2D texture;
         private static Point bounds;
-        private static Point zeroBounds;
 
         private static Sprite firstDigitSprite;
         private static Sprite secondDigitSprite;

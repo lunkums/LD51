@@ -1,4 +1,13 @@
 ﻿{
+  "bindingsUp": "W",
+  "bindingsDown": "S",
+  "bindingsLeft": "A",
+  "bindingsRight": "D",
+  "bindingsSelect": "Enter",
+  "bindingsExit": "Escape",
+  "bindingsVolumeUp": "OemPlus",
+  "bindingsVolumeDown": "OemMinus",
+  "bindingsShowFps": "F12",
   "bulletLayerDepth": "0.10",
   "bulletLifeTime": "1",
   "coinLayerDepth": "0.50",

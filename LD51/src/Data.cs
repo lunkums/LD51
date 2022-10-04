@@ -18,8 +18,13 @@ namespace LD51
         // "where T : struct" should limit T to primitive types
         public static T Get<T>(string propertyName) where T : struct
         {
-            string value = data.GetValueOrDefault(propertyName, "");
+            string value = GetRaw(propertyName);
             return (T)Convert.ChangeType(value, typeof(T));
+        }
+        
+        public static string GetRaw(string propertyName)
+        {
+            return data.GetValueOrDefault(propertyName, "");
         }
     }
 }

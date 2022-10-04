@@ -80,7 +80,7 @@ namespace LD51
             switch (state)
             {
                 case State.GameOver:
-                    if (Input.IsKeyPressed(Keys.Enter) || Input.LeftMousePressed())
+                    if (Input.IsKeyPressed(KeyBindings.Select) || Input.LeftMousePressed())
                     {
                         Audio.Play("clack");
                         Reset();
@@ -164,16 +164,16 @@ namespace LD51
 
         private void CheckPersistentActions()
         {
-            if (Input.IsKeyPressed(Keys.Escape))
+            if (Input.IsKeyPressed(KeyBindings.Exit))
                 game.Exit();
 
-            if (Input.IsKeyPressed(Keys.OemPlus))
+            if (Input.IsKeyPressed(KeyBindings.VolumeUp))
                 Audio.IncreaseVolume();
 
-            if (Input.IsKeyPressed(Keys.OemMinus))
+            if (Input.IsKeyPressed(KeyBindings.VolumeDown))
                 Audio.DecreaseVolume();
 
-            if (Input.IsKeyPressed(Keys.F12))
+            if (Input.IsKeyPressed(KeyBindings.ShowFps))
                 fpsCounter.Toggle();
         }
 
