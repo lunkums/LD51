@@ -114,7 +114,7 @@ namespace LD51
             // "Critical" hit feedback
             if (CriticalDeath)
             {
-                Audio.PlayRandom(dyingSfx);
+                Audio.PlayRandomEffect(dyingSfx);
                 GoreFactory.SpawnRandomGoreExplosion(this);
                 percentDropChance *= 2;
             }

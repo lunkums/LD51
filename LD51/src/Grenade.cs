@@ -61,7 +61,7 @@ namespace LD51
         {
             Grenade grenade = new Grenade(position, direction);
             grenade.Id = instances.Spawn(grenade);
-            Audio.Play("grenadepriming");
+            Audio.PlayEffect("grenadepriming");
         }
 
         public void CollisionResponse(Collision collision)
@@ -129,7 +129,7 @@ namespace LD51
 
         private void Explode()
         {
-            Audio.Play("grenadeexploding");
+            Audio.PlayEffect("grenadeexploding");
             GoreFactory.SpawnRandomGoreExplosion(this, _initialDebrisSpeed);
 
             active = false;

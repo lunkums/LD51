@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace LD51
@@ -107,7 +106,7 @@ namespace LD51
             if (Input.LeftMousePressed() && shootCooldown <= 0)
             {
                 // Play clip
-                Audio.Play("shoot");
+                Audio.PlayEffect("shoot");
 
                 // Spawn bullet
                 Bullet.Spawn(Center, directionToMouse, speed * 4f);
@@ -128,7 +127,7 @@ namespace LD51
 
             if (!hasReloaded && shootCooldown <= _secondsBetweenShots / 2)
             {
-                Audio.Play("cock");
+                Audio.PlayEffect("cock");
                 hasReloaded = true;
             }
         }
@@ -142,7 +141,7 @@ namespace LD51
         {
             if (dead) return;
 
-            Audio.PlayRandom(dyingSfx);
+            Audio.PlayRandomEffect(dyingSfx);
             Main.GameOver();
             dead = true;
         }

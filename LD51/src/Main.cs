@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -22,7 +21,6 @@ namespace LD51
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
             graphics.PreferredBackBufferWidth = _screenSize.X;
@@ -51,9 +49,9 @@ namespace LD51
             Content.RootDirectory = "Content";
 
             // Add textures
+            Texture2D font = Content.LoadTexture("font");
             Texture2D baseTexture = new Texture2D(GraphicsDevice, 1, 1);
             baseTexture.SetData(new[] { Color.White });
-            Texture2D font = Content.Load<Texture2D>("font");
 
             // It doesn't seem to matter that these guys all share a base texture, so long as they specify their own
             // color for it
@@ -68,22 +66,31 @@ namespace LD51
             CoinCounter.Texture = font;
             FpsCounter.Texture = font;
 
-            GameOverScreen.Texture = Content.Load<Texture2D>("gameoverscreen");
-            TitleScreen.Texture = Content.Load<Texture2D>("titlescreen");
+            GameOverScreen.Texture = Content.LoadTexture("gameoverscreen");
+            TitleScreen.Texture = Content.LoadTexture("titlescreen");
 
             // Add sounds
-            Audio.AddSoundEffect("cock", Content.Load<SoundEffect>("cock"));
-            Audio.AddSoundEffect("clack", Content.Load<SoundEffect>("clack"));
-            Audio.AddSoundEffect("click", Content.Load<SoundEffect>("click"));
-            Audio.AddSoundEffect("coinpickup", Content.Load<SoundEffect>("coinpickup")); 
-            Audio.AddSoundEffect("grenadeexploding", Content.Load<SoundEffect>("grenadeexploding"));
-            Audio.AddSoundEffect("grenadepriming", Content.Load<SoundEffect>("grenadepriming"));
-            Audio.AddSoundEffect("headexploding1", Content.Load<SoundEffect>("headexploding1"));
-            Audio.AddSoundEffect("headexploding2", Content.Load<SoundEffect>("headexploding2"));
-            Audio.AddSoundEffect("headexploding3", Content.Load<SoundEffect>("headexploding3"));
-            Audio.AddSoundEffect("laughter1", Content.Load<SoundEffect>("laughter1"));
-            Audio.AddSoundEffect("laughter2", Content.Load<SoundEffect>("laughter2"));
-            Audio.AddSoundEffect("shoot", Content.Load<SoundEffect>("shoot"));
+            string[] soundEffects =
+            {
+                "cock", "clack", "click", "coinpickup", "grenadeexploding", "grenadepriming", "headexploding1",
+                "headexploding2", "headexploding3", "laughter1", "laughter2", "shoot"
+            };
+
+            foreach (string effect in soundEffects)
+            {
+                Audio.AddSoundEffect(effect, Content.LoadSoundEffect(effect));
+            }
+
+            // Add music
+            string[] musicTracks =
+            {
+                "exhilarate"
+            };
+
+            foreach (string track in musicTracks)
+            {
+                Audio.AddMusicTrack(track, Content.LoadMusicTrack(track));
+            }
         }
 
         protected override void Update(GameTime gameTime)

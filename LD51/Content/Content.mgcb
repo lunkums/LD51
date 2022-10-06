@@ -13,31 +13,103 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin clack.wav
+#begin music/Exhilarate.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/Exhilarate.mp3
+
+#begin sound/Burning city ambiance.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:clack.wav
+/build:sound/Burning city ambiance.wav
 
-#begin click.wav
+#begin sound/clack.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:click.wav
+/build:sound/clack.wav
 
-#begin cock.wav
+#begin sound/click.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:cock.wav
+/build:sound/click.wav
 
-#begin coinpickup.wav
+#begin sound/cock.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:coinpickup.wav
+/build:sound/cock.wav
 
-#begin font.png
+#begin sound/coinpickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/coinpickup.wav
+
+#begin sound/grenade.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/grenade.wav
+
+#begin sound/grenadeexploding.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/grenadeexploding.wav
+
+#begin sound/grenadepriming.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/grenadepriming.wav
+
+#begin sound/grenadethrowing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/grenadethrowing.wav
+
+#begin sound/headexploding1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/headexploding1.wav
+
+#begin sound/headexploding2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/headexploding2.wav
+
+#begin sound/headexploding3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/headexploding3.wav
+
+#begin sound/laughter1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/laughter1.wav
+
+#begin sound/laughter2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/laughter2.wav
+
+#begin sound/shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/shoot.wav
+
+#begin texture/font.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +119,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:font.png
+/build:texture/font.png
 
-#begin gameoverscreen.png
+#begin texture/gameoverscreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,63 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:gameoverscreen.png
+/build:texture/gameoverscreen.png
 
-#begin grenadeexploding.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:grenadeexploding.wav
-
-#begin grenadepriming.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:grenadepriming.wav
-
-#begin grenadethrowing.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:grenadethrowing.wav
-
-#begin headexploding1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:headexploding1.wav
-
-#begin headexploding2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:headexploding2.wav
-
-#begin headexploding3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:headexploding3.wav
-
-#begin laughter1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:laughter1.wav
-
-#begin laughter2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:laughter2.wav
-
-#begin shoot.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:shoot.wav
-
-#begin titlescreen.png
+#begin texture/titlescreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -125,5 +143,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:titlescreen.png
+/build:texture/titlescreen.png
 

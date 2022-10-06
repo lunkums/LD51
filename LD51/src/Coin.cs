@@ -66,7 +66,7 @@ namespace LD51
 
         public void Pickup()
         {
-            Audio.Play("coinpickup");
+            Audio.PlayEffect("coinpickup");
             Despawn();
         }
 

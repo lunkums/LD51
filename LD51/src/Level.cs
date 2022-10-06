@@ -82,7 +82,7 @@ namespace LD51
                 case State.GameOver:
                     if (Input.IsKeyPressed(KeyBindings.Select) || Input.LeftMousePressed())
                     {
-                        Audio.Play("clack");
+                        Audio.PlayEffect("clack");
                         Reset();
                     }
                     break;
@@ -122,6 +122,9 @@ namespace LD51
         public void Play()
         {
             state = State.Playing;
+
+            Audio.PlayMusicTrack("exhilarate");
+
             countdown.Start();
         }
 
@@ -149,11 +152,13 @@ namespace LD51
 
             GoreFactory.SpawnRandomGoreExplosion(Player);
             player = null;
+            Audio.StopMusic();
+
             countdown.Stop();
 
             Coroutine.InvokeDelayed(() =>
             {
-                Audio.PlayRandom(laughSfx);
+                Audio.PlayRandomEffect(laughSfx);
                 gameOverScreen.Active = true;
             }, _scrollDelay);
         }
