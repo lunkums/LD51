@@ -21,7 +21,7 @@ The game was made in 48 hours for the Ludum Dare 51 game jam using MonoGame. I h
 - Volume up/down: +/-
 - Exit: Escape
 
-## Build Instructions
+## Deploy Instructions
 
 Replace `TARGET_PLATFORM` with your target platform (i.e. win-x64, linux-x64, or osx-x64) then run the following command in the .NET command line at the root directory (where the .sln lives):
 
