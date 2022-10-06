@@ -1,19 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<!-- Override with NetBeauty -->
-	<!--<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-	</PropertyGroup>-->
-
-	<!-- NetBeauty -->
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
+		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
 		<RollForward>Major</RollForward>
 		<PublishReadyToRun>false</PublishReadyToRun>
 		<TieredCompilation>false</TieredCompilation>
 	</PropertyGroup>
 
+	<!-- NetBeauty -->
 	<PropertyGroup>
 		<BeautySharedRuntimeMode>False</BeautySharedRuntimeMode>
 		<!-- beauty into sub-directory, default is libs, quote with "" if contains space  -->
@@ -55,8 +50,12 @@
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
+	<EmbeddedResource Include="Icon.ico">
+	  <LogicalName>Icon.ico</LogicalName>
+	</EmbeddedResource>
+	<EmbeddedResource Include="Icon.bmp">
+	  <LogicalName>Icon.bmp</LogicalName>
+	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
