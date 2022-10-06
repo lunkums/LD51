@@ -21,11 +21,19 @@ The game was made in 48 hours for the Ludum Dare 51 game jam using MonoGame. I h
 - Volume up/down: +/-
 - Exit: Escape
 
+## Build Instructions
+
+Replace `TARGET_PLATFORM` with your target platform (i.e. win-x64, linux-x64, or osx-x64) then run the following command in the .NET command line at the root directory (where the .sln lives):
+
+`dotnet publish -c Release -r TARGET_PLATFORM /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained`
+
+See the [MonoGame documentation](https://docs.monogame.net/articles/packaging_games.html) for additional details on building an application bundle for OSX.
+
 ## TODO
 
 - Make money useful
   - Make grenades purchasable (and give them a cooldown)
-- Prevent shooting and clicking when the game window is out of focus
+- ~~Prevent shooting and clicking when the game window is out of focus~~
 - Create walls for the arena
 - Add music
 - Make the arena dynamic
@@ -35,6 +43,7 @@ The game was made in 48 hours for the Ludum Dare 51 game jam using MonoGame. I h
 ## Credits
 
 - JROB774, "Sharp Retro Font." opengameart.org, https://opengameart.org/content/sharp-retro-font.
+- Julian Höltge, Debugging and localization. https://bytinggames.com/.
 - dasBUTCHER84, "SXP_SHOTGUN_RACK_01." freesound, https://freesound.org/people/dasBUTCHER84/sounds/449614/.
 - Paracetamol, "Grenade pin pull then throw - sound effect." YouTube, https://www.youtube.com/watch?v=GLPefnYsrdU.
 
