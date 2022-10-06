@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace LD51
@@ -19,7 +20,7 @@ namespace LD51
         public static T Get<T>(string propertyName) where T : struct
         {
             string value = GetRaw(propertyName);
-            return (T)Convert.ChangeType(value, typeof(T));
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
         }
         
         public static string GetRaw(string propertyName)
