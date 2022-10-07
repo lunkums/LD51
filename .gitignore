@@ -396,6 +396,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-# Music - too large and shouldn't redistribute anyways
-LD51/Content/music
