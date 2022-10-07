@@ -11,19 +11,22 @@ namespace LD51
         private static Dictionary<string, Song> musicTracks;
         private static Dictionary<string, SoundEffect> soundEffects;
         private static Rand rand;
-        private static int volume;
+        private static int musicVolume;
+        private static int soundEffectVolume;
 
         static Audio()
         {
             musicTracks = new Dictionary<string, Song>();
             soundEffects = new Dictionary<string, SoundEffect>();
             rand = new Rand();
-            volume = 7;
+            musicVolume = 3;
+            soundEffectVolume = 7;
 
-            MediaPlayer.Volume = Level;
+            MediaPlayer.Volume = MusicLevel;
         }
 
-        private static float Level => volume / (float)MaxVolume;
+        private static float MusicLevel => musicVolume / (float)MaxVolume;
+        private static float SoundEffectLevel => soundEffectVolume / (float)MaxVolume;
 
         public static void AddMusicTrack(string trackName, Song track)
         {
@@ -47,7 +50,7 @@ namespace LD51
         {
             if (soundEffects.TryGetValue(effectName, out SoundEffect effect))
             {
-                effect.Play(Level, 0f, 0f);
+                effect.Play(SoundEffectLevel, 0f, 0f);
             }
         }
 
@@ -56,22 +59,36 @@ namespace LD51
             PlayEffect(effectNames[rand.NextInt(0, effectNames.Length)]);
         }
 
-        public static void IncreaseVolume()
+        public static void IncreaseSoundEffectVolume()
         {
-            if (volume == MaxVolume) return;
+            if (soundEffectVolume == MaxVolume) return;
 
-            volume++;
-            MediaPlayer.Volume = Level;
+            soundEffectVolume++;
             PlayEffect("click");
         }
 
-        public static void DecreaseVolume()
+        public static void DecreaseSoundEffectVolume()
         {
-            if (volume == 0) return;
+            if (soundEffectVolume == 0) return;
 
-            volume--;
-            MediaPlayer.Volume = Level;
+            soundEffectVolume--;
             PlayEffect("click");
+        }
+
+        public static void IncreaseMusicVolume()
+        {
+            if (musicVolume == MaxVolume) return;
+
+            musicVolume++;
+            MediaPlayer.Volume = MusicLevel;
+        }
+
+        public static void DecreaseMusicVolume()
+        {
+            if (musicVolume == 0) return;
+
+            musicVolume--;
+            MediaPlayer.Volume = MusicLevel;
         }
 
         public static void StopMusic()

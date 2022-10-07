@@ -13,8 +13,10 @@ namespace LD51
             Right = GetKey("bindingsRight");
             Select = GetKey("bindingsSelect");
             Exit = GetKey("bindingsExit");
-            VolumeUp = GetKey("bindingsVolumeUp");
-            VolumeDown = GetKey("bindingsVolumeDown");
+            MusicVolumeUp = GetKey("bindingsMusicVolumeUp");
+            MusicVolumeDown = GetKey("bindingsMusicVolumeDown");
+            SoundEffectsVolumeUp = GetKey("bindingsSoundEffectsVolumeUp");
+            SoundEffectsVolumeDown = GetKey("bindingsSoundEffectsVolumeDown");
             ShowFps = GetKey("bindingsShowFps");
         }
 
@@ -24,8 +26,10 @@ namespace LD51
         public static Keys Right { get; }
         public static Keys Select { get; }
         public static Keys Exit { get; }
-        public static Keys VolumeUp { get; }
-        public static Keys VolumeDown { get; }
+        public static Keys MusicVolumeUp { get; }
+        public static Keys MusicVolumeDown { get; }
+        public static Keys SoundEffectsVolumeUp { get; }
+        public static Keys SoundEffectsVolumeDown { get; }
         public static Keys ShowFps { get; }
 
         // Try to get the key from its string name, otherwise, try to get it from its integer value

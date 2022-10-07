@@ -172,11 +172,17 @@ namespace LD51
             if (Input.IsKeyPressed(KeyBindings.Exit))
                 game.Exit();
 
-            if (Input.IsKeyPressed(KeyBindings.VolumeUp))
-                Audio.IncreaseVolume();
+            if (Input.IsKeyPressed(KeyBindings.MusicVolumeUp))
+                Audio.IncreaseMusicVolume();
 
-            if (Input.IsKeyPressed(KeyBindings.VolumeDown))
-                Audio.DecreaseVolume();
+            if (Input.IsKeyPressed(KeyBindings.MusicVolumeDown))
+                Audio.DecreaseMusicVolume();
+
+            if (Input.IsKeyPressed(KeyBindings.SoundEffectsVolumeUp))
+                Audio.IncreaseSoundEffectVolume();
+
+            if (Input.IsKeyPressed(KeyBindings.SoundEffectsVolumeDown))
+                Audio.DecreaseSoundEffectVolume();
 
             if (Input.IsKeyPressed(KeyBindings.ShowFps))
                 fpsCounter.Toggle();

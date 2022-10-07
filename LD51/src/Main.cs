@@ -87,9 +87,10 @@ namespace LD51
                 "exhilarate"
             };
 
+            // Comment this loop out if you don't have access to the tracks
             foreach (string track in musicTracks)
             {
-                Audio.AddMusicTrack(track, Content.LoadMusicTrack(track));
+                //Audio.AddMusicTrack(track, Content.LoadMusicTrack(track));
             }
         }
 
